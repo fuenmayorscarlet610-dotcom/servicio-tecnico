@@ -10,7 +10,7 @@
             --cyan: #00f2ff;
             --pink: #ff00ff;
             --dark: #010508;
-            --glass: rgba(0, 242, 255, 0.03);
+            --glass: rgba(0, 242, 255, 0.05);
         }
 
         body, html {
@@ -19,37 +19,41 @@
             font-family: 'Orbitron', sans-serif;
             margin: 0; padding: 0;
             height: 100vh; overflow: hidden;
-            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-image: radial-gradient(circle at center, #001a1a 0%, var(--dark) 100%);
         }
 
-        /* --- OVERLAY DE CARGA --- */
+        /* --- LOADING SCREEN --- */
         #loader {
             position: fixed; inset: 0; background: #000; z-index: 1000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
 
-        .loading-ring {
-            width: 150px; height: 150px; border: 2px solid transparent;
-            border-top: 2px solid var(--pink); border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .loading-bar-container {
+            width: 200px; height: 2px; background: rgba(0, 242, 255, 0.1);
+            margin-top: 20px; border-radius: 10px; overflow: hidden;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .loading-fill {
+            width: 0%; height: 100%; background: var(--pink);
+            box-shadow: 0 0 15px var(--pink); animation: load 3s forwards;
+        }
 
-        /* --- CHASIS TÁCTICO --- */
+        @keyframes load { 100% { width: 100%; } }
+
+        /* --- INTERFAZ AEGIS --- */
         .aegis-interface {
-            display: none; width: 95%; max-width: 450px;
-            background: rgba(1, 8, 11, 0.95);
-            border: 2px solid var(--cyan); border-radius: 60px;
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+            display: none; width: 92%; max-width: 440px;
+            background: rgba(1, 8, 11, 0.98);
+            border: 2px solid var(--cyan); border-radius: 55px;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.15);
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            overflow: hidden; text-align: center;
+            overflow-y: auto; max-height: 90vh; text-align: center; scrollbar-width: none;
         }
 
-        /* MARCO DE PERFIL CON ESCÁNER */
+        .aegis-interface::-webkit-scrollbar { display: none; }
+
         .profile-chassis {
-            position: relative; width: 140px; height: 140px; margin: 30px auto 10px;
+            position: relative; width: 120px; height: 120px; margin: 25px auto 10px;
             border-radius: 50%; border: 3px solid var(--cyan); padding: 5px;
             background: var(--dark); box-shadow: 0 0 20px var(--cyan);
         }
@@ -58,64 +62,63 @@
 
         .laser {
             position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--pink); box-shadow: 0 0 15px var(--pink);
-            animation: scan 3s infinite; opacity: 0.7;
+            background: var(--pink); box-shadow: 0 0 10px var(--pink);
+            animation: scan 3s infinite linear;
         }
 
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
-        /* DATOS EN TIEMPO REAL */
-        .live-stats { font-family: 'Share Tech Mono'; font-size: 0.7rem; color: var(--pink); margin-bottom: 20px; }
-
-        .dev-title {
-            background: var(--pink); color: white; padding: 4px 15px;
-            border-radius: 20px; font-size: 0.6rem; font-weight: 900;
-            display: inline-block; margin-bottom: 10px;
+        .dev-badge {
+            background: rgba(255, 0, 255, 0.1); color: var(--pink); padding: 5px 15px;
+            border: 1px solid var(--pink); border-radius: 20px; font-size: 0.6rem;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
         }
 
-        /* FORMULARIO DE ÉLITE */
-        .input-box {
-            width: 80%; background: var(--glass); border: 1px solid rgba(0, 242, 255, 0.3);
-            border-radius: 20px; padding: 15px; color: white; margin: 5px auto;
-            font-family: 'Share Tech Mono'; outline: none; text-align: center;
+        /* FORMULARIO MEJORADO */
+        .input-group { padding: 0 35px; }
+
+        .tactical-input, .tactical-area {
+            width: 100%; background: var(--glass); border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 15px; padding: 12px; color: white; margin-bottom: 10px;
+            font-family: 'Share Tech Mono'; outline: none; box-sizing: border-box;
         }
 
-        .btn-stark {
-            width: 80%; padding: 18px; border-radius: 30px; border: none;
+        .tactical-area { resize: none; height: 80px; }
+
+        .btn-link {
+            width: 100%; padding: 16px; border-radius: 25px; border: none;
             background: var(--cyan); color: var(--dark); font-weight: 900;
-            font-family: 'Orbitron'; cursor: pointer; transition: 0.3s;
-            margin-top: 15px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
         }
 
-        .btn-stark:hover { background: var(--pink); color: white; box-shadow: 0 0 30px var(--pink); }
-
-        /* CONTACTOS */
-        #contact-grid { display: none; margin-top: 15px; }
-        .c-link { text-decoration: none; color: white; font-size: 0.7rem; padding: 10px; margin: 0 5px; border-radius: 10px; }
-
-        /* FRASE ICONICA */
-        #typing-phrase {
-            margin: 20px 0; font-family: 'Share Tech Mono'; font-size: 0.85rem;
-            color: var(--cyan); height: 40px; padding: 0 20px;
+        /* CONTACTO */
+        #contact-grid { display: none; margin-top: 15px; padding: 0 35px; }
+        .c-btn {
+            text-decoration: none; color: white; font-size: 0.7rem; padding: 12px;
+            border-radius: 15px; display: inline-block; width: 45%; font-weight: bold;
         }
 
-        /* LOGO INTEGRADO */
-        .logo-footer {
-            width: 60px; height: 60px; border: 2px solid var(--cyan);
-            border-radius: 50%; margin: 15px auto; padding: 5px; background: #000;
+        #type-phrase {
+            margin: 20px 0; font-family: 'Share Tech Mono'; font-size: 0.8rem;
+            color: var(--cyan); min-height: 40px;
         }
-        .logo-footer img { width: 100%; border-radius: 50%; }
 
-        .copyright { font-size: 0.55rem; opacity: 0.5; padding-bottom: 20px; }
+        .footer-logo-ring {
+            width: 55px; height: 55px; border: 2px solid var(--cyan);
+            border-radius: 50%; margin: 10px auto; padding: 5px;
+        }
+        .footer-logo-ring img { width: 100%; border-radius: 50%; }
 
+        .copyright-area { font-size: 0.6rem; padding: 10px 30px 25px; line-height: 1.5; opacity: 0.7; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div class="loading-ring"></div>
-    <div style="margin-top: 20px; letter-spacing: 5px; font-size: 0.8rem;">SISTEMA AEGIS V7.0</div>
-    <button id="init-btn" onclick="ignite()" style="margin-top: 30px; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 15px 40px; cursor: pointer; font-family: 'Orbitron';">INICIALIZAR</button>
+    <div style="letter-spacing: 8px; font-size: 0.9rem; font-weight: 900;">LOADING...</div>
+    <div class="loading-bar-container"><div class="loading-fill"></div></div>
+    <button id="entry-btn" onclick="activate()" style="display:none; margin-top: 30px; background: transparent; border: 1px solid var(--pink); color: var(--pink); padding: 12px 35px; cursor: pointer; font-family: 'Orbitron';">INGRESAR AL NÚCLEO</button>
 </div>
 
 <div class="aegis-interface" id="ui">
@@ -124,61 +127,69 @@
         <div class="laser"></div>
     </div>
 
-    <div class="dev-title">SR. TECH DEVELOPER & SECURITY</div>
-    <h1 style="font-size: 1.2rem; margin: 0; letter-spacing: 2px;">SCARLET FUENMAYOR</h1>
+    <div class="dev-badge">SR. TECH DEVELOPER</div>
+    <h1 style="font-size: 1.1rem; margin: 5px 0; letter-spacing: 2px;">SCARLET FUENMAYOR</h1>
     
-    <div class="live-stats">
-        [ STATUS: ACTIVE ] [ <span id="clock"></span> ] <br>
-        [ UPLINK: SECURE ] [ DATA: ENCRYPTED ]
+    <div style="font-family: 'Share Tech Mono'; font-size: 0.6rem; color: var(--pink); margin-bottom: 15px;">
+        [ ONLINE ACTIVE: <span id="clock"></span> ]
     </div>
 
-    <input type="text" id="client" class="input-box" placeholder="IDENTIFICAR USUARIO / EMPRESA">
-    <button class="btn-stark" onclick="accessContact()">ENLAZAR CON SCARLET</button>
-
-    <div id="contact-grid">
-        <a href="https://wa.me/584262271349" class="c-link" style="background: #25D366;">WHATSAPP</a>
-        <a href="mailto:Fuenmayorscarlet610@gmail.com" class="c-link" style="background: #D44638;">EMAIL</a>
+    <div class="input-group">
+        <input type="text" id="client" class="tactical-input" placeholder="NOMBRE O EMPRESA">
+        <textarea id="specs" class="tactical-area" placeholder="DETALLES TÉCNICOS / REQUERIMIENTOS"></textarea>
+        <button class="btn-link" onclick="unlockContact()">ENLAZAR SERVICIOS</button>
+        
+        <div id="contact-grid">
+            <a href="https://wa.me/584262271349" class="c-btn" style="background: #25D366; margin-right: 5px;">WHATSAPP</a>
+            <a href="mailto:Fuenmayorscarlet610@gmail.com" class="c-btn" style="background: #D44638;">E-MAIL</a>
+        </div>
     </div>
 
-    <div id="typing-phrase"></div>
+    <div id="type-phrase"></div>
 
-    <div class="logo-footer">
+    <div class="footer-logo-ring">
         <img src="AEGIS.png" alt="AEGIS">
     </div>
 
-    <div class="copyright">
-        © 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL <br>
-        EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA
+    <div class="copyright-area">
+        "LA TECNOLOGÍA ES UN PUENTE, NO UNA BARRERA"<br>
+        © 2026 SCARLET FUENMAYOR | TODOS LOS DERECHOS RESERVADOS
     </div>
 </div>
 
 <audio id="army-of-me" loop><source src="musica.mp3" type="audio/mpeg"></audio>
 
 <script>
-    function ignite() {
+    // Mostrar botón de entrada tras carga simulada
+    setTimeout(() => { document.getElementById('entry-btn').style.display = 'block'; }, 3000);
+
+    function activate() {
         document.getElementById('army-of-me').play();
         document.getElementById('loader').style.display = 'none';
         document.getElementById('ui').style.display = 'block';
-        startTypewriter();
+        startType();
     }
 
-    // Reloj Stark en tiempo real
     setInterval(() => {
         document.getElementById('clock').innerText = new Date().toLocaleTimeString();
     }, 1000);
 
-    const phrase = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
-    let i = 0;
-    function startTypewriter() {
-        if (i < phrase.length) {
-            document.getElementById("typing-phrase").innerHTML += phrase.charAt(i);
-            i++; setTimeout(startTypewriter, 50);
+    const msg = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
+    let n = 0;
+    function startType() {
+        if (n < msg.length) {
+            document.getElementById("type-phrase").innerHTML += msg.charAt(n);
+            n++; setTimeout(startType, 60);
         }
     }
 
-    function accessContact() {
-        const name = document.getElementById('client').value;
-        if(name.length < 3) { alert("ERROR: IDENTIFICACIÓN INSUFICIENTE"); return; }
+    function unlockContact() {
+        const client = document.getElementById('client').value;
+        const specs = document.getElementById('specs').value;
+        if(client.length < 2 || specs.length < 5) { 
+            alert("SISTEMA: POR FAVOR COMPLETE LOS DETALLES TÉCNICOS."); 
+            return; 
+        }
         document.getElementById('contact-grid').style.display = 'block';
     }
 </script>
