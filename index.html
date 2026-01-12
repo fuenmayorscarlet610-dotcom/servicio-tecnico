@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS PROTOCOL | SCARLET FUENMAYOR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <title>AEGIS CORE | © SCARLET FUENMAYOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root {
             --cyan: #00f2ff;
             --pink: #ff00ff;
-            --dark: #050a0f;
+            --dark: #01080b;
+            --panel: rgba(0, 18, 25, 0.95);
         }
 
         body, html {
@@ -18,157 +18,210 @@
             color: white;
             font-family: 'Orbitron', sans-serif;
             margin: 0;
-            overflow: hidden;
             height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Fondo de rejilla técnica */
+            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
-        /* --- PANTALLA DE CARGA --- */
+        /* --- LOADING SYSTEM --- */
         #loader {
             position: fixed;
-            z-index: 999;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             background: var(--dark);
+            z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        .loading-bar-container {
-            width: 300px;
-            height: 10px;
+        .loading-box {
             border: 1px solid var(--cyan);
-            margin-top: 20px;
+            padding: 20px;
+            background: var(--panel);
+            text-align: center;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
 
-        .loading-fill {
-            height: 100%;
-            width: 0%;
-            background: var(--cyan);
+        .bar-bg { width: 200px; height: 2px; background: #111; margin: 15px 0; position: relative; }
+        .bar-fill { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+
+        /* --- INTERFAZ INTEGRADA --- */
+        .main-chassis {
+            width: 90%;
+            max-width: 450px;
+            background: var(--panel);
+            border: 1px solid var(--cyan);
+            border-radius: 40px;
+            padding: 0; /* Para integrar la imagen arriba */
+            box-shadow: 0 0 50px rgba(0,0,0,1), 0 0 20px rgba(0, 242, 255, 0.2);
+            overflow: hidden;
+            display: none; /* Se activa tras el loading */
+        }
+
+        /* Cabecera integrada con la foto */
+        .chassis-header {
+            background: linear-gradient(to bottom, rgba(0,242,255,0.1), transparent);
+            padding: 30px 20px 10px;
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+            text-align: center;
+        }
+
+        .profile-frame {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            border: 2px solid var(--cyan);
+            border-radius: 50%;
+            padding: 4px;
+            background: var(--dark);
             box-shadow: 0 0 15px var(--cyan);
-            animation: load 3s forwards;
         }
 
-        @keyframes load {
-            0% { width: 0%; }
-            100% { width: 100%; }
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: url('perfil.png') center/cover no-repeat;
+            filter: grayscale(30%) contrast(110%);
         }
 
-        #start-btn {
-            display: none; /* Aparece al final de la carga */
-            margin-top: 20px;
+        .dev-tag {
+            color: var(--pink);
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Cuerpo del formulario */
+        .chassis-body { padding: 25px; }
+
+        .input-field {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-left: 4px solid var(--cyan);
+            border-radius: 8px;
+            padding: 15px;
+            color: var(--cyan);
+            width: 100%;
+            margin-bottom: 15px;
+            font-family: 'Share Tech Mono';
+            box-sizing: border-box;
+        }
+
+        .btn-ignite {
+            width: 100%;
+            padding: 18px;
             background: transparent;
             border: 1px solid var(--pink);
             color: var(--pink);
-            padding: 10px 20px;
-            cursor: pointer;
+            border-radius: 40px;
             font-family: 'Orbitron';
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.4s;
+            text-transform: uppercase;
         }
 
-        /* --- INTERFAZ PRINCIPAL --- */
-        #particles-js { position: absolute; width: 100%; height: 100%; z-index: 1; }
-
-        .terminal-container {
-            position: relative;
-            z-index: 2;
-            width: 90%;
-            max-width: 850px;
-            background: rgba(0, 15, 20, 0.85);
-            border: 2px solid var(--cyan);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-            padding: 30px;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 25px;
-            clip-path: polygon(5% 0, 100% 0, 100% 95%, 95% 100%, 0 100%, 0 5%);
-            top: 50%; left: 50%; transform: translate(-50%, -50%);
+        .btn-ignite:hover {
+            background: var(--pink);
+            color: white;
+            box-shadow: 0 0 30px var(--pink);
         }
 
-        .profile-hex {
-            width: 120px;
-            height: 120px;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            border: 3px solid var(--cyan);
-            background: url('perfil.png') center/cover no-repeat;
-            margin: 0 auto 15px;
-            filter: drop-shadow(0 0 10px var(--cyan));
+        /* FRASE CON EFECTO TYPEWRITER */
+        .typewriter-box {
+            min-height: 40px;
+            margin-top: 20px;
+            font-family: 'Share Tech Mono';
+            font-size: 0.8rem;
+            color: var(--cyan);
+            text-align: center;
         }
 
-        .header-logo img {
-            width: 50px;
-            filter: drop-shadow(0 0 5px var(--cyan));
+        .footer-logo-area {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* Estilos de inputs y botones igual que el anterior... */
-        input, textarea { width: 100%; background: rgba(0, 242, 255, 0.05); border: 1px solid var(--cyan); color: var(--cyan); padding: 10px; margin: 10px 0; font-family: monospace; }
-        .btn-stark { width: 100%; background: transparent; border: 1px solid var(--pink); color: var(--pink); padding: 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        .aegis-logo-small { width: 40px; opacity: 0.8; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div style="color: var(--cyan);">INICIALIZANDO AEGIS PROTOCOL...</div>
-    <div class="loading-bar-container">
-        <div class="loading-fill"></div>
+    <div class="loading-box">
+        <div style="font-size: 0.6rem; color: var(--cyan);">ACCESSING ENCRYPTED CORE...</div>
+        <div class="bar-bg"><div class="bar-fill" id="fill"></div></div>
+        <button id="entry-btn" onclick="startCore()" style="display:none; background:none; border:1px solid var(--cyan); color:var(--cyan); padding:5px 15px; cursor:pointer; font-family:'Orbitron'; font-size: 0.7rem;">INGRESAR AL SISTEMA</button>
     </div>
-    <button id="start-btn" onclick="initSystem()">ACCEDER AL ENLACE</button>
 </div>
 
-<div id="particles-js"></div>
-
-<div class="terminal-container">
-    <div class="side-radar" style="text-align: center;">
-        <div class="profile-hex"></div>
-        <div style="color: var(--pink); font-size: 0.8rem; margin-bottom: 20px;">ING. SCARLET FUENMAYOR</div>
-        <div id="clock" style="color: var(--cyan); font-size: 1.2rem;">00:00:00</div>
-    </div>
-
-    <div class="main-content">
-        <div class="header-logo" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-            <img src="AEGIS.png" alt="AEGIS">
-            <h2 style="color: var(--cyan); margin: 0;">AEGIS TACTICAL</h2>
+<div class="main-chassis" id="chassis">
+    <div class="chassis-header">
+        <div class="profile-frame">
+            <div class="profile-img"></div>
         </div>
+        <div class="dev-tag">SR. TECH DEVELOPER</div>
+        <h2 style="margin: 10px 0 5px; font-size: 1rem;">SCARLET FUENMAYOR</h2>
+    </div>
+
+    <div class="chassis-body">
+        <input type="text" class="input-field" placeholder="[ NOMBRE O EMPRESA ]">
+        <textarea class="input-field" rows="2" placeholder="[ REPORTE DE SISTEMA ]"></textarea>
+        <button class="btn-ignite">ESTABLECER VÍNCULO</button>
         
-        <form>
-            <input type="text" placeholder="AUTH_ID: USUARIO">
-            <textarea rows="3" placeholder="REPORTE DE INCIDENCIA..."></textarea>
-            <button type="button" class="btn-stark">INICIAR TRANSMISIÓN</button>
-        </form>
+        <div class="typewriter-box" id="phrase-target"></div>
+    </div>
+
+    <div class="footer-logo-area">
+        <img src="AEGIS.png" class="aegis-logo-small" alt="AEGIS">
+        <div style="font-size: 0.5rem; opacity: 0.5;">© 2026 SCARLET FUENMAYOR<br>PROTOCOL AEGIS V4.0</div>
     </div>
 </div>
 
-<audio id="bg-music" loop>
-    <source src="musica.mp3" type="audio/mpeg">
-</audio>
+<audio id="bg-audio" loop><source src="musica.mp3" type="audio/mpeg"></audio>
 
 <script>
-    // Mostrar botón después de la carga
-    setTimeout(() => {
-        document.getElementById('start-btn').style.display = 'block';
-    }, 3000);
+    // Lógica de carga
+    let p = 0;
+    const interval = setInterval(() => {
+        p++;
+        document.getElementById('fill').style.width = p + "%";
+        if(p >= 100) {
+            clearInterval(interval);
+            document.getElementById('entry-btn').style.display = "block";
+        }
+    }, 30);
 
-    function initSystem() {
-        // Quitar loader
-        document.getElementById('loader').style.display = 'none';
-        // Play música
-        const music = document.getElementById('bg-music');
-        music.play().catch(e => console.log("Audio bloqueado por el navegador"));
+    function startCore() {
+        document.getElementById('bg-audio').play();
+        document.getElementById('loader').style.display = "none";
+        document.getElementById('chassis').style.display = "block";
+        startTypewriter();
     }
 
-    // Reloj
-    setInterval(() => {
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-    }, 1000);
-
-    // Partículas
-    particlesJS("particles-js", {
-        "particles": {
-            "number": { "value": 60 },
-            "color": { "value": "#00f2ff" },
-            "line_linked": { "enable": true, "color": "#ff00ff", "opacity": 0.3 },
-            "move": { "enable": true, "speed": 2 }
+    // Efecto de escritura para tu frase icónica
+    const phrase = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
+    let index = 0;
+    function startTypewriter() {
+        if (index < phrase.length) {
+            document.getElementById("phrase-target").innerHTML += phrase.charAt(index);
+            index++;
+            setTimeout(startTypewriter, 70);
         }
-    });
+    }
 </script>
 
 </body>
