@@ -12,51 +12,52 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        /* Loader Ultra Rápido */
+        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.3s ease; }
 
         .aegis-terminal {
             width: 95vw; height: 96vh;
             background: rgba(0, 8, 12, 0.98); border: 2px solid var(--cyan);
             border-radius: 45px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
             display: none; flex-direction: column; align-items: center; padding: 15px;
-            position: relative; contain: content;
+            position: relative; will-change: transform;
         }
 
-        .profile-box { position: relative; width: 90px; height: 90px; margin-bottom: 8px; }
-        .ring { width: 100%; height: 100%; border: 3px solid var(--cyan); border-radius: 50%; padding: 4px; overflow: hidden; position: relative; box-shadow: 0 0 15px var(--cyan); background: #000; }
+        .profile-box { position: relative; width: 85px; height: 85px; margin-bottom: 8px; }
+        .ring { width: 100%; height: 100%; border: 3px solid var(--cyan); border-radius: 50%; padding: 4px; overflow: hidden; position: relative; box-shadow: 0 0 15px var(--cyan); }
         .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('perfil.png') center/cover no-repeat; }
-        .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 10px var(--pink); animation: scan 3s infinite linear; left: 0; z-index: 5; }
+        .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 10px var(--pink); animation: scan 2.5s infinite linear; left: 0; z-index: 5; }
         @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
 
         .dev-tag { color: var(--pink); font-size: 0.55rem; font-weight: 900; letter-spacing: 3px; margin-bottom: 2px; }
-        h2 { margin: 0; font-size: 1.1rem; letter-spacing: 1px; }
+        h2 { margin: 0; font-size: 1rem; letter-spacing: 1px; text-shadow: 0 0 5px var(--cyan); }
         .sync-text { font-family: 'Share Tech Mono'; font-size: 0.6rem; margin: 5px 0 10px; opacity: 0.8; }
 
-        .input-group { width: 100%; padding: 0 15px; }
-        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 10px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 8px; outline: none; font-size: 0.8rem; }
-        .t-area { height: 55px; resize: none; }
+        .input-group { width: 100%; padding: 0 10px; }
+        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 12px; padding: 10px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 8px; outline: none; font-size: 0.75rem; transition: 0.3s; }
+        .t-field:focus, .t-area:focus { border-color: var(--pink); background: rgba(255, 0, 255, 0.05); }
+        .t-area { height: 50px; resize: none; }
 
         .btn-main { width: 100%; padding: 14px; border-radius: 30px; border: none; background: var(--pink); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.8rem; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); text-transform: uppercase; margin-bottom: 12px; }
 
         .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px; margin-bottom: 10px; }
-        .c-link { font-size: 0.55rem; padding: 10px 2px; border-radius: 12px; color: white; text-decoration: none; font-weight: bold; text-align: center; }
+        .c-link { font-size: 0.5rem; padding: 10px 2px; border-radius: 12px; color: white; text-decoration: none; font-weight: bold; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-        /* BLOQUE DE OPCIONES EN LÍNEA / SERVICIOS */
         .catalog { width: 100%; border-top: 1px solid rgba(0, 242, 255, 0.2); padding-top: 10px; margin-top: 5px; text-align: center; }
         .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 10px; }
-        .cat-item { font-size: 0.5rem; border: 1px solid var(--cyan); border-radius: 6px; padding: 6px; background: rgba(0, 242, 255, 0.05); text-transform: uppercase; }
+        .cat-item { font-size: 0.5rem; border: 1px solid var(--cyan); border-radius: 6px; padding: 6px; background: rgba(0, 242, 255, 0.05); text-transform: uppercase; letter-spacing: 1px; }
 
-        #phrase { min-height: 30px; font-family: 'Share Tech Mono'; font-size: 0.65rem; margin-top: 8px; text-align: center; }
-        .footer-logo { width: 40px; height: 40px; border: 2px solid var(--cyan); border-radius: 50%; margin: 8px 0 5px; padding: 4px; }
+        #phrase { min-height: 30px; font-family: 'Share Tech Mono'; font-size: 0.6rem; margin-top: 8px; text-align: center; color: var(--cyan); }
+        .footer-logo { width: 38px; height: 38px; border: 1.5px solid var(--cyan); border-radius: 50%; margin: 5px 0; padding: 3px; }
         .footer-logo img { width: 100%; border-radius: 50%; }
-        .copy { font-size: 0.45rem; opacity: 0.6; line-height: 1.2; text-align: center; }
+        .copy { font-size: 0.45rem; opacity: 0.6; line-height: 1.2; text-align: center; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div style="letter-spacing: 8px; font-weight: 900; color: var(--cyan);">AEGIS CORE</div>
-    <button onclick="boot()" id="ignite-btn" style="margin-top:30px; background:none; border:2px solid var(--pink); color:var(--pink); padding:12px 35px; font-family:'Orbitron'; border-radius:25px; font-weight:900; cursor:pointer; opacity: 0; transition: opacity 0.5s;">IGNITE</button>
+    <div style="letter-spacing: 8px; font-weight: 900; color: var(--cyan); font-size: 0.7rem; margin-bottom: 20px;">AEGIS SYSTEM ACTIVE</div>
+    <button onclick="boot()" id="ignite-btn" style="background:none; border:2px solid var(--pink); color:var(--pink); padding:12px 35px; font-family:'Orbitron'; border-radius:25px; font-weight:900; cursor:pointer; font-size: 0.8rem; box-shadow: 0 0 15px var(--pink);">IGNITE</button>
 </div>
 
 <div class="aegis-terminal" id="terminal">
@@ -68,8 +69,8 @@
     <div class="sync-text">[ UPLINK ACTIVE: <span id="clock"></span> ]</div>
 
     <div class="input-group">
-        <input type="text" id="c-name" class="t-field" placeholder="CLIENTE / EMPRESA">
-        <textarea id="c-req" class="t-area" placeholder="REQUERIMIENTOS TÉCNICOS"></textarea>
+        <input type="text" id="c-name" class="t-field" placeholder="ID CLIENTE / EMPRESA">
+        <textarea id="c-req" class="t-area" placeholder="DESCRIPCIÓN DE LA FALLA"></textarea>
         <button class="btn-main" onclick="execute()">ENLAZAR SERVICIOS</button>
         <div class="grid-links" id="links">
             <a id="wa-btn" href="#" target="_blank" class="c-link" style="background: #25D366;">WHATSAPP</a>
@@ -79,7 +80,7 @@
     </div>
 
     <div class="catalog">
-        <p style="font-size: 0.55rem; color: var(--pink); margin-bottom: 6px; letter-spacing: 2px;">[ UNIDADES DE SERVICIO ]</p>
+        <p style="font-size: 0.5rem; color: var(--pink); margin-bottom: 6px; letter-spacing: 2px;">[ UNIDADES DE SERVICIO ]</p>
         <div class="catalog-grid">
             <div class="cat-item">SISTEMAS CORE</div>
             <div class="cat-item">HARDWARE ARMOR</div>
@@ -94,50 +95,65 @@
     </div>
 </div>
 
-<audio id="bgm" loop><source src="musica.mp3" type="audio/mpeg"></audio>
+<audio id="bgm" loop preload="auto"><source src="musica.mp3" type="audio/mpeg"></audio>
 
 <script>
-    window.onload = () => { document.getElementById('ignite-btn').style.opacity = '1'; };
+    const bgm = document.getElementById('bgm');
+    
+    // Intentar pre-reproducir (silenciado) para ganar velocidad
+    window.addEventListener('touchstart', () => { bgm.play().catch(()=>{}); }, {once: true});
 
     function boot() {
-        document.getElementById('bgm').play().catch(()=>{});
+        bgm.play().catch(() => { console.log("Audio requiere interacción"); });
         document.getElementById('loader').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('terminal').style.display = 'flex';
             type();
-        }, 500);
+        }, 300);
     }
 
     setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
     const txt = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
     let n = 0;
-    function type() { if(n < txt.length) { document.getElementById('phrase').innerHTML += txt.charAt(n); n++; setTimeout(type, 50); } }
+    function type() { 
+        if(n < txt.length) { 
+            document.getElementById('phrase').innerHTML += txt.charAt(n); 
+            n++; 
+            setTimeout(type, 40); 
+        } 
+    }
 
     async function execute() {
         const u = document.getElementById('c-name').value;
         const r = document.getElementById('c-req').value;
-        if(!u || !r) return;
+        if(!u || !r) {
+            document.getElementById('phrase').innerHTML = "<span style='color:red'>ERROR: COMPLETE LOS DATOS</span>";
+            return;
+        }
 
-        let dev = navigator.userAgent.split('(')[1]?.split(')')[0] || "Dispositivo Móvil";
-        let info = "Localizando...";
         document.getElementById('links').style.display = 'grid';
+        document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ SINCRONIZANDO CON NÚCLEO AEGIS... ]</span>";
 
+        let info = "Localizando...";
         try {
             const res = await fetch('https://ipapi.co/json/');
             const d = await res.json();
             info = `${d.city}, ${d.country_name}`;
         } catch(e) { info = "Ubicación Privada"; }
 
-        // MENSAJE DE DESPERTAR (BOT READY)
         const msg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${u}%0A*REQ:* ${r}%0A*LOC:* ${info}`;
         
+        // Configuración de Enlaces Directos
         document.getElementById('wa-btn').href = `https://wa.me/584262271349?text=${msg}`;
         document.getElementById('em-btn').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=AEGIS: ${u}&body=${r}`;
-        
-        // ESTA LÍNEA ES LA QUE HACE QUE EL BOT TENGA EL MENSAJE LISTO
         document.getElementById('tg-btn').href = `https://t.me/AegisSystem_Bot?text=${msg}`;
+
+        // Feedback visual de que el bot "despertó"
+        setTimeout(() => {
+            document.getElementById('phrase').innerHTML = "<span style='color:var(--cyan)'>SISTEMA LISTO. SELECCIONE CANAL DE ENLACE.</span>";
+        }, 1500);
     }
 </script>
 </body>
