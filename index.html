@@ -2,126 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS CORE V10 | © SCARLET FUENMAYOR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AEGIS CORE | © SCARLET FUENMAYOR</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --cyan: #00f2ff;
-            --pink: #ff00ff;
-            --dark: #010508;
-            --neon-glow: 0 0 20px rgba(0, 242, 255, 0.4);
-        }
+        :root { --cyan: #00f2ff; --pink: #ff00ff; --dark: #010508; }
+        body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; }
 
-        body, html {
-            background-color: var(--dark);
-            color: var(--cyan);
-            font-family: 'Orbitron', sans-serif;
-            margin: 0; padding: 0;
-            height: 100vh; overflow: hidden;
-            background-image: radial-gradient(circle at center, #001a1a 0%, #000 100%);
-        }
+        #loader { position: fixed; inset: 0; background: #000; z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
-        /* --- PANTALLA DE CARGA --- */
-        #loader {
-            position: fixed; inset: 0; background: #000; z-index: 1000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-
-        .loading-text { letter-spacing: 12px; font-weight: 900; animation: pulse 1.5s infinite; color: var(--cyan); }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
-
-        /* --- TERMINAL DE MANDO --- */
         .aegis-terminal {
-            display: none; width: 92%; max-width: 450px;
-            background: rgba(0, 8, 12, 0.98);
-            border: 2px solid var(--cyan); border-radius: 60px;
-            box-shadow: var(--neon-glow);
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            padding-bottom: 25px; text-align: center; overflow: hidden;
+            display: none; width: 92vw; height: 95vh; margin: 2.5vh auto;
+            background: rgba(0, 8, 12, 0.98); border: 2px solid var(--cyan);
+            border-radius: 40px; box-shadow: 0 0 25px rgba(0, 242, 255, 0.3);
+            text-align: center; position: relative; box-sizing: border-box;
         }
 
-        /* PERFIL CON ESCÁNER BIOMÉTRICO */
-        .profile-container { position: relative; width: 130px; height: 130px; margin: 30px auto 10px; }
-        .profile-ring {
-            width: 100%; height: 100%; border: 3px solid var(--cyan);
-            border-radius: 50%; padding: 5px; box-shadow: 0 0 15px var(--cyan);
-            background: var(--dark); position: relative; overflow: hidden;
-        }
+        .profile-wrapper { position: relative; width: 100px; height: 100px; margin: 15px auto 5px; }
+        .profile-ring { width: 100%; height: 100%; border: 3px solid var(--cyan); border-radius: 50%; padding: 3px; position: relative; overflow: hidden; box-shadow: 0 0 15px var(--cyan); }
         .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('perfil.png') center/cover; }
         
-        .laser-line {
-            position: absolute; width: 100%; height: 3px; background: var(--pink);
-            box-shadow: 0 0 15px var(--pink); animation: scan 2.5s infinite linear;
-            z-index: 2;
-        }
-        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
+        .laser-line { position: absolute; width: 100%; height: 3px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 3s infinite linear; left: 0; z-index: 5; }
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
 
-        /* INPUTS TÁCTICOS */
-        .input-group { padding: 0 35px; margin-top: 15px; }
-        .t-field, .t-area {
-            width: 100%; background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 18px; padding: 14px; color: #fff; font-family: 'Share Tech Mono';
-            margin-bottom: 12px; box-sizing: border-box; outline: none; transition: 0.3s;
-        }
-        .t-field:focus, .t-area:focus { border-color: var(--pink); box-shadow: 0 0 10px rgba(255, 0, 255, 0.2); }
-        .t-area { height: 85px; resize: none; }
+        .input-group { padding: 0 25px; margin-top: 10px; }
+        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 10px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 8px; box-sizing: border-box; outline: none; font-size: 0.8rem; }
+        .t-area { height: 60px; resize: none; }
 
-        /* BOTÓN DE ACCIÓN */
-        .btn-deploy {
-            width: 100%; padding: 18px; border-radius: 35px; border: none;
-            background: var(--pink); color: white; font-weight: 900;
-            font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); letter-spacing: 2px;
-        }
+        .btn-deploy { width: 100%; padding: 12px; border-radius: 25px; border: none; background: var(--pink); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.8rem; box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); text-transform: uppercase; }
 
-        .contact-grid { 
-            display: none; margin-top: 20px; 
-            grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 30px;
-        }
-        .c-btn { 
-            font-size: 0.6rem; padding: 12px 5px; border-radius: 15px; 
-            color: white; text-decoration: none; font-weight: bold;
-            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
-        }
+        .contact-grid { display: none; margin-top: 12px; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px; }
+        .c-btn { font-size: 0.55rem; padding: 10px 2px; border-radius: 10px; color: white; text-decoration: none; font-weight: bold; text-align: center; }
 
-        /* TEXTOS Y DERECHOS */
-        #typewriter { min-height: 45px; font-family: 'Share Tech Mono'; font-size: 0.85rem; color: var(--cyan); margin: 15px 0; padding: 0 20px; }
-        
-        .footer-logo-ring {
-            width: 55px; height: 55px; border: 2px solid var(--cyan);
-            border-radius: 50%; margin: 10px auto; padding: 4px; background: #000;
-        }
-        .footer-logo-ring img { width: 100%; border-radius: 50%; }
-
-        .legal-text { font-size: 0.55rem; opacity: 0.6; line-height: 1.6; letter-spacing: 1px; }
+        #typewriter { min-height: 35px; font-family: 'Share Tech Mono'; font-size: 0.7rem; margin: 10px 0; color: var(--cyan); padding: 0 15px; }
+        .logo-ring { width: 42px; height: 42px; border: 2px solid var(--cyan); border-radius: 50%; margin: 5px auto; padding: 3px; }
+        .logo-ring img { width: 100%; border-radius: 50%; }
+        .legal { font-size: 0.48rem; opacity: 0.7; line-height: 1.3; padding: 0 10px; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div class="loading-text">LOADING SYSTEM...</div>
-    <button id="ignite-btn" onclick="initAegis()" style="display:none; margin-top: 40px; background: none; border: 2px solid var(--pink); color: var(--pink); padding: 15px 45px; cursor: pointer; font-family: 'Orbitron'; border-radius: 30px; font-weight: 900;">IGNITE CORE</button>
+    <div style="letter-spacing: 5px; color: var(--cyan); font-weight: 900;">LOADING...</div>
+    <button onclick="ignite()" style="margin-top:30px; background:none; border:2px solid var(--pink); color:var(--pink); padding:12px 35px; font-family:'Orbitron'; border-radius:25px; font-weight:900; cursor:pointer;">IGNITE CORE</button>
 </div>
 
 <div class="aegis-terminal" id="terminal">
-    <div class="profile-container">
-        <div class="profile-ring">
-            <div class="laser-line"></div>
-            <div class="profile-img"></div>
-        </div>
+    <div class="profile-wrapper">
+        <div class="profile-ring"><div class="laser-line"></div><div class="profile-img"></div></div>
     </div>
     
-    <div style="color: var(--pink); font-size: 0.65rem; font-weight: 900; letter-spacing: 4px;">SR. TECH DEVELOPER</div>
-    <h2 style="margin: 5px 0; letter-spacing: 2px; font-size: 1.3rem;">SCARLET FUENMAYOR</h2>
+    <div style="color: var(--pink); font-size: 0.55rem; font-weight: 900; letter-spacing: 2px; margin-top: 10px;">SR. TECH DEVELOPER</div>
+    <h2 style="margin: 2px 0; font-size: 1rem; letter-spacing: 1px;">SCARLET FUENMAYOR</h2>
     
-    <div style="font-family: 'Share Tech Mono'; font-size: 0.65rem; color: var(--cyan); margin-bottom: 10px;">
-        [ UPLINK ACTIVE: <span id="clock"></span> ]
-    </div>
+    <div style="font-family: 'Share Tech Mono'; font-size: 0.6rem; margin-bottom: 10px;">[ ONLINE ACTIVE: <span id="clock"></span> ]</div>
 
     <div class="input-group">
-        <input type="text" id="user-id" class="t-field" placeholder="NOMBRE O EMPRESA">
-        <textarea id="service-req" class="t-area" placeholder="DESCRIBA LOS REQUERIMIENTOS TÉCNICOS"></textarea>
+        <input type="text" id="user-id" class="t-field" placeholder="CLIENTE / EMPRESA">
+        <textarea id="service-req" class="t-area" placeholder="REQUERIMIENTOS TÉCNICOS"></textarea>
         <button class="btn-deploy" onclick="trackAndDeploy()">ENLAZAR SERVICIOS</button>
 
         <div class="contact-grid" id="grid">
@@ -132,71 +70,50 @@
     </div>
 
     <div id="typewriter"></div>
-
-    <div class="footer-logo-ring"><img src="AEGIS.png" alt="AEGIS"></div>
-    <div class="legal-text">
+    <div class="logo-ring"><img src="AEGIS.png" alt="AEGIS"></div>
+    <div class="legal">
         "LA TECNOLOGÍA ES UN PUENTE, NO UNA BARRERA"<br>
-        © 2026 SCARLET FUENMAYOR | PROTOCOLO AEGIS V10.5
+        © 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL PRO
     </div>
 </div>
 
 <audio id="bjork-audio" loop><source src="musica.mp3" type="audio/mpeg"></audio>
 
 <script>
-    // DATOS DE IDENTIDAD
-    const WA_NUMBER = "584262271349";
-    const MAIL_ADDR = "Fuenmayorscarlet610@gmail.com";
-
-    // CARGA INICIAL
-    setTimeout(() => { document.getElementById('ignite-btn').style.display = 'block'; }, 3000);
-
-    function initAegis() {
+    function ignite() {
         document.getElementById('bjork-audio').play();
         document.getElementById('loader').style.display = 'none';
         document.getElementById('terminal').style.display = 'block';
-        startTextEffect();
+        startText();
     }
 
-    // RELOJ EN TIEMPO REAL
     setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-    // EFECTO TYPEWRITER
     const message = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
-    let charIdx = 0;
-    function startTextEffect() {
-        if (charIdx < message.length) {
-            document.getElementById("typewriter").innerHTML += message.charAt(charIdx);
-            charIdx++; setTimeout(startTextEffect, 65);
-        }
-    }
+    let i = 0;
+    function startText() { if (i < message.length) { document.getElementById("typewriter").innerHTML += message.charAt(i); i++; setTimeout(startText, 60); } }
 
-    // RASTREO TÁCTICO Y ENVÍO
     async function trackAndDeploy() {
-        const user = document.getElementById('user-id').value.trim();
-        const reqs = document.getElementById('service-req').value.trim();
+        const user = document.getElementById('user-id').value;
+        const reqs = document.getElementById('service-req').value;
+        if(!user || !reqs) return;
 
-        if(!user || !reqs) { alert("SISTEMA: REQUIERE DATOS PARA PROCESAR."); return; }
-
-        let locationData = "Localización: [PROTEGIDA / NO DETECTADA]";
-        let deviceData = navigator.userAgent.split(') ')[0].split(' (')[1] || "Dispositivo Desconocido";
-
-        try {
-            // Rastreo silencioso de IP (Ciudad, País, ISP)
-            const response = await fetch('https://ipapi.co/json/');
-            const data = await response.json();
-            locationData = `${data.city}, ${data.country_name} (${data.org})`;
-        } catch (e) { console.log("Rastreo limitado."); }
-
-        // Formatear Mensajes
-        const alertMsg = `🚨 *ALERTA TÁCTICA AEGIS*%0A%0A*CLIENTE:* ${user}%0A*REPORTE:* ${reqs}%0A--------------------------%0A📱 *EQUIPO:* ${deviceData}%0A🌍 *UBICACIÓN:* ${locationData}`;
+        let device = navigator.userAgent.split('(')[1].split(')')[0];
+        let loc = "Rastreado por IP";
         
-        // Asignar a botones
-        document.getElementById('wa').href = `https://wa.me/${WA_NUMBER}?text=${alertMsg}`;
-        document.getElementById('em').href = `mailto:${MAIL_ADDR}?subject=REPORTE AEGIS: ${user}&body=Requerimientos: ${reqs}%0A%0A--- Info Técnica ---%0AEquipo: ${deviceData}%0AUbicación: ${locationData}`;
+        try {
+            const res = await fetch('https://ipapi.co/json/');
+            const d = await res.json();
+            loc = `${d.city}, ${d.country_name} (${d.org})`;
+        } catch(e) {}
+
+        const alertMsg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${user}%0A*REPORTE:* ${reqs}%0A*EQUIPO:* ${device}%0A*ORIGEN:* ${loc}`;
+        
+        document.getElementById('wa').href = `https://wa.me/584262271349?text=${alertMsg}`;
+        document.getElementById('em').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=AEGIS: ${user}&body=${reqs}%0A%0A---%0A${device}%0A${loc}`;
         document.getElementById('tg').href = `https://t.me/AegisSystem_Bot?start=Reporte_${user}`;
 
         document.getElementById('grid').style.display = 'grid';
-        alert("SISTEMA: RASTREO COMPLETADO. ELIJA CANAL DE COMUNICACIÓN.");
     }
 </script>
 </body>
