@@ -2,108 +2,234 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AEGIS Protocol | Scarlet Fuenmayor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="author" content="Scarlet Fuenmayor">
+    <meta name="copyright" content="© 2026 Scarlet Fuenmayor. All Rights Reserved.">
+    <title>AEGIS PROTOCOL | Tactical Interface</title>
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap');
-        :root { --cyan: #00f2ff; --bg: #000205; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
 
-        /* PANTALLA DE CARGA (LOADING) */
-        #loader {
-            position: fixed; inset: 0; background: var(--bg); z-index: 1000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .loading-text { font-family: 'Orbitron'; color: var(--cyan); letter-spacing: 5px; margin-bottom: 20px; font-size: 0.8rem; }
-        .progress-bar { width: 200px; height: 4px; background: rgba(0, 242, 255, 0.1); border-radius: 10px; overflow: hidden; border: 1px solid var(--cyan); }
-        .progress-fill { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: 0.1s; }
-
-        /* INTERFAZ PRINCIPAL */
-        .main-ui { opacity: 0; transition: 1.5s; text-align: center; width: 90%; max-width: 400px; z-index: 10; display: none; }
-        .glass-card {
-            background: rgba(0, 15, 30, 0.9); border: 2px solid var(--cyan); border-radius: 40px;
-            padding: 30px 20px; backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
+        :root {
+            --cyan: #00f2ff;
+            --deep-cyan: #00a2ff;
+            --pink: #ff00ff;
+            --warning: #ff3c00;
+            --bg-dark: #050a0f;
+            --glass: rgba(0, 242, 255, 0.05);
+            --border-glow: rgba(0, 242, 255, 0.3);
         }
 
-        /* Foto y Logo con Fusión Stark */
-        .frame { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--cyan); margin: 0 auto 15px; box-shadow: 0 0 20px var(--cyan); overflow: hidden; }
-        .frame img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .logo-stark {
-            width: 100px; height: 100px; margin: 20px auto; background: white;
-            mix-blend-mode: screen; border: 2px solid var(--cyan); border-radius: 50%;
-            padding: 10px; box-shadow: 0 0 15px var(--cyan); display: flex; align-items: center;
-        }
-        .logo-stark img { width: 100%; object-fit: contain; }
+        * { box-sizing: border-box; margin: 0; padding: 0; cursor: crosshair; }
 
-        h1 { font-family: 'Orbitron'; font-size: 1.4rem; color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 80%),
+                linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 100%, 100% 2px, 3px 100%;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Marco Perimetral estilo Tony Stark */
+        .ui-frame {
+            position: relative;
+            width: 95%;
+            max-width: 450px;
+            padding: 30px;
+            border: 1px solid var(--border-glow);
+            background: rgba(0, 15, 25, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 242, 255, 0.1);
+            clip-path: polygon(0 5%, 5% 0, 95% 0, 100% 5%, 100% 95%, 95% 100%, 5% 100%, 0 95%);
+        }
+
+        .status-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-glow);
+            padding-bottom: 5px;
+        }
+
+        h1 {
+            font-family: 'Orbitron';
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 5px;
+            background: linear-gradient(to right, var(--cyan), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .phrase-iconic {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--pink);
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+
         input, textarea {
-            width: 100%; padding: 12px; margin-bottom: 12px; background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.3); color: #fff; border-radius: 10px; text-align: center;
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--border-glow);
+            padding: 12px;
+            color: #fff;
+            font-family: 'Rajdhani';
+            font-size: 1rem;
+            transition: 0.4s;
         }
 
-        .btn-link {
-            width: 100%; padding: 16px; background: transparent; border: 1px solid var(--cyan);
-            color: var(--cyan); font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase;
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            background: rgba(0, 242, 255, 0.1);
         }
 
-        /* Copyright Scarlet Fuenmayor */
-        .footer-legal { margin-top: 25px; border-top: 1px solid rgba(0, 242, 255, 0.2); padding-top: 15px; font-family: 'Orbitron'; font-size: 0.6rem; color: var(--cyan); }
+        .btn-stark {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            font-family: 'Orbitron';
+            font-weight: bold;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            transition: 0.5s;
+        }
+
+        .btn-stark:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 30px var(--cyan);
+        }
+
+        .footer-copyright {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* Escaneo de Retina Animado */
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: var(--cyan);
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.3;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div class="loading-text">INICIALIZANDO AEGIS... <span id="percent">0%</span></div>
-        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
-    </div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
-    <div class="main-ui" id="ui">
-        <div class="glass-card">
-            <div class="frame"><img src="perfil.png" alt="Scarlet"></div>
-            <h1>SCARLET FUENMAYOR</h1>
-            <p style="color: #ff00ff; font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 20px;">SYSTEM SECURITY</p>
+    <div class="ui-frame">
+        <div class="scan-line"></div>
+        
+        <div class="status-line">
+            <span>SYS: ACTIVE</span>
+            <span>CARACAS, VZLA</span>
+        </div>
 
-            <form id="contact">
-                <input type="text" placeholder="ID CLIENTE" required>
-                <textarea placeholder="INCIDENCIA" rows="2" required></textarea>
-                <button type="submit" class="btn-link">ACTIVAR ENLACE</button>
-            </form>
+        <h1>AEGIS PROTOCOL</h1>
+        <p class="phrase-iconic">"Seguridad nivel Scarlet Fuenmayor"</p>
 
-            <div class="logo-stark"><img src="AEGIS.png" alt="Logo"></div>
+        <form id="aegisSystem">
+            <div class="input-group">
+                <label>Identificación de Usuario</label>
+                <input type="text" id="userName" placeholder="NOMBRE COMPLETO" required>
+            </div>
 
-            <div class="footer-legal">© 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL</div>
+            <div class="input-group">
+                <label>Reporte de Incidencia</label>
+                <textarea id="userIssue" rows="3" placeholder="DESCRIBA LA SITUACIÓN..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-stark" id="actionBtn">INICIAR ENLACE TÁCTICO</button>
+        </form>
+
+        <div class="footer-copyright">
+            PROPERTY OF SCARLET FUENMAYOR<br>
+            © 2026 AEGIS SECURITY SYSTEMS | ENCRYPTED
         </div>
     </div>
 
     <script>
-        // Animación de Carga Stark
-        let count = 0;
-        const fill = document.getElementById('fill');
-        const percent = document.getElementById('percent');
-        const loader = document.getElementById('loader');
-        const ui = document.getElementById('ui');
+        const form = document.getElementById('aegisSystem');
+        const btn = document.getElementById('actionBtn');
+        const music = document.getElementById('bgMusic');
 
-        const interval = setInterval(() => {
-            count++;
-            fill.style.width = count + "%";
-            percent.innerText = count + "%";
-            if(count === 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    ui.style.display = 'block';
-                    setTimeout(() => ui.style.opacity = 1, 50);
-                }, 500);
-            }
-        }, 30);
-
-        document.getElementById('contact').onsubmit = (e) => {
+        form.onsubmit = (e) => {
             e.preventDefault();
-            window.location.href = "https://wa.me/584262271349?text=" + encodeURIComponent("🚨 PROTOCOLO AEGIS ACTIVADO");
+            
+            // Intentar reproducir música si no ha empezado
+            music.play().catch(() => console.log("Audio requiere interacción"));
+
+            const name = document.getElementById('userName').value;
+            const issue = document.getElementById('userIssue').value;
+
+            // Feedback Visual Nivel Stark
+            btn.innerText = "ACCESO CONCEDIDO...";
+            btn.style.borderColor = "#0f0";
+            btn.style.color = "#0f0";
+
+            setTimeout(() => {
+                const whatsappMsg = `🚨 *PROTOCOL AEGIS ACTIVATED*\n\n*AUTHORITY:* SCARLET FUENMAYOR\n*CLIENT:* ${name}\n*STATUS:* ${issue}\n\n_System Secure_`;
+                const url = `https://wa.me/584262271349?text=${encodeURIComponent(whatsappMsg)}`;
+                window.location.href = url;
+            }, 1500);
         };
+
+        // Activar música al tocar cualquier parte de la pantalla (bypass de seguridad de navegadores)
+        document.body.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                music.volume = 0.3; // Volumen moderado para no aturdir
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
