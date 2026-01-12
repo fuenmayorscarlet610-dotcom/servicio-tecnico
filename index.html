@@ -6,181 +6,103 @@
     <title>AEGIS Protocol | Scarlet Fuenmayor</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap');
-        
-        :root { --cyan: #00f2ff; --pink: #ff00ff; --bg: #000308; }
-
+        :root { --cyan: #00f2ff; --bg: #000205; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        body { 
-            background: var(--bg); 
-            color: #fff; 
-            font-family: 'Rajdhani', sans-serif; 
-            min-height: 100vh;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            overflow-x: hidden;
-            padding: 20px;
+        body { background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+
+        /* PANTALLA DE CARGA (LOADING) */
+        #loader {
+            position: fixed; inset: 0; background: var(--bg); z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .loading-text { font-family: 'Orbitron'; color: var(--cyan); letter-spacing: 5px; margin-bottom: 20px; font-size: 0.8rem; }
+        .progress-bar { width: 200px; height: 4px; background: rgba(0, 242, 255, 0.1); border-radius: 10px; overflow: hidden; border: 1px solid var(--cyan); }
+        .progress-fill { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: 0.1s; }
+
+        /* INTERFAZ PRINCIPAL */
+        .main-ui { opacity: 0; transition: 1.5s; text-align: center; width: 90%; max-width: 400px; z-index: 10; display: none; }
+        .glass-card {
+            background: rgba(0, 15, 30, 0.9); border: 2px solid var(--cyan); border-radius: 40px;
+            padding: 30px 20px; backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
         }
 
-        /* EFECTO ESPECIAL 1: Fondo de Matriz Animada */
-        #matrix-bg { position: fixed; top: 0; left: 0; z-index: 1; width: 100%; height: 100%; opacity: 0.2; }
-
-        /* PANEL FLEXIBLE (Se adapta a PC y Samsung A31) */
-        .stark-card {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 450px; /* Tamaño máximo en PC */
-            background: rgba(0, 15, 30, 0.8);
-            border: 2px solid var(--cyan);
-            border-radius: 30px;
-            backdrop-filter: blur(15px);
-            padding: clamp(20px, 5vw, 40px); /* Espaciado elástico */
-            text-align: center;
-            box-shadow: 0 0 50px rgba(0, 242, 255, 0.2);
+        /* Foto y Logo con Fusión Stark */
+        .frame { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--cyan); margin: 0 auto 15px; box-shadow: 0 0 20px var(--cyan); overflow: hidden; }
+        .frame img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .logo-stark {
+            width: 100px; height: 100px; margin: 20px auto; background: white;
+            mix-blend-mode: screen; border: 2px solid var(--cyan); border-radius: 50%;
+            padding: 10px; box-shadow: 0 0 15px var(--cyan); display: flex; align-items: center;
         }
+        .logo-stark img { width: 100%; object-fit: contain; }
 
-        /* EFECTO ESPECIAL 2: Escáner de Seguridad */
-        .laser-scan {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background: var(--cyan);
-            box-shadow: 0 0 20px var(--cyan);
-            left: 0;
-            top: 0;
-            animation: scan 4s infinite linear;
-            border-radius: 30px;
-            opacity: 0.6;
-        }
-
-        /* Fotos y Logos con Fusión */
-        .avatar-frame {
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--cyan);
-            margin: 0 auto 15px;
-            box-shadow: 0 0 20px var(--cyan);
-            overflow: hidden;
-        }
-        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* SOLUCIÓN FINAL AL LOGO (Adiós al cuadro blanco) */
-        .logo-fusion {
-            width: 100px; height: 100px;
-            margin: 20px auto;
-            background: #fff;
-            mix-blend-mode: screen; /* Elimina el blanco de AEGIS.png */
-            border-radius: 50%;
-            border: 2px solid var(--cyan);
-            padding: 10px;
-            box-shadow: 0 0 15px var(--cyan);
-        }
-        .logo-fusion img { width: 100%; height: 100%; object-fit: contain; }
-
-        h1 { font-family: 'Orbitron'; font-size: clamp(1.2rem, 5vw, 1.8rem); color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
-        .role { color: var(--pink); font-family: 'Orbitron'; font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 20px; }
-
+        h1 { font-family: 'Orbitron'; font-size: 1.4rem; color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
         input, textarea {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 12px;
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.3);
-            color: #fff;
-            border-radius: 12px;
-            text-align: center;
-            font-family: 'Rajdhani';
-            font-size: 1rem;
+            width: 100%; padding: 12px; margin-bottom: 12px; background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.3); color: #fff; border-radius: 10px; text-align: center;
         }
 
-        .btn-stark {
-            width: 100%;
-            padding: 18px;
-            background: transparent;
-            border: 1px solid var(--cyan);
-            color: var(--cyan);
-            font-family: 'Orbitron';
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.4s;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
+        .btn-link {
+            width: 100%; padding: 16px; background: transparent; border: 1px solid var(--cyan);
+            color: var(--cyan); font-family: 'Orbitron'; cursor: pointer; text-transform: uppercase;
         }
-        .btn-stark:hover { background: var(--cyan); color: #000; box-shadow: 0 0 40px var(--cyan); }
 
         /* Copyright Scarlet Fuenmayor */
-        .footer-text {
-            margin-top: 30px;
-            border-top: 1px solid rgba(0, 242, 255, 0.2);
-            padding-top: 15px;
-            font-family: 'Orbitron';
-            font-size: 0.7rem;
-            color: var(--cyan);
-            letter-spacing: 1px;
-        }
-
-        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+        .footer-legal { margin-top: 25px; border-top: 1px solid rgba(0, 242, 255, 0.2); padding-top: 15px; font-family: 'Orbitron'; font-size: 0.6rem; color: var(--cyan); }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix-bg"></canvas>
+    <div id="loader">
+        <div class="loading-text">INICIALIZANDO AEGIS... <span id="percent">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    </div>
 
-    <div class="stark-card">
-        <div class="laser-scan"></div>
-        
-        <div class="avatar-frame">
-            <img src="perfil.png" alt="Scarlet Fuenmayor">
-        </div>
+    <div class="main-ui" id="ui">
+        <div class="glass-card">
+            <div class="frame"><img src="perfil.png" alt="Scarlet"></div>
+            <h1>SCARLET FUENMAYOR</h1>
+            <p style="color: #ff00ff; font-family: 'Orbitron'; font-size: 0.7rem; margin-bottom: 20px;">SYSTEM SECURITY</p>
 
-        <h1>SCARLET FUENMAYOR</h1>
-        <div class="role">ADVANCED SYSTEM SECURITY</div>
+            <form id="contact">
+                <input type="text" placeholder="ID CLIENTE" required>
+                <textarea placeholder="INCIDENCIA" rows="2" required></textarea>
+                <button type="submit" class="btn-link">ACTIVAR ENLACE</button>
+            </form>
 
-        <form id="aegisForm">
-            <input type="text" placeholder="ID CLIENTE" required>
-            <textarea placeholder="REPORTE DE INCIDENCIA" rows="2" required></textarea>
-            <button type="submit" class="btn-stark">ENLAZAR SISTEMA</button>
-        </form>
+            <div class="logo-stark"><img src="AEGIS.png" alt="Logo"></div>
 
-        <div class="logo-fusion">
-            <img src="AEGIS.png" alt="AEGIS">
-        </div>
-
-        <div class="footer-text">
-            © 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL
+            <div class="footer-legal">© 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL</div>
         </div>
     </div>
 
     <script>
-        // EFECTO MATRIX REALISTA
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const alphabet = "010101SCARLETAEGIS";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const rainDrops = Array.from({ length: columns }).fill(1);
+        // Animación de Carga Stark
+        let count = 0;
+        const fill = document.getElementById('fill');
+        const percent = document.getElementById('percent');
+        const loader = document.getElementById('loader');
+        const ui = document.getElementById('ui');
 
-        const draw = () => {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00f2ff';
-            ctx.font = fontSize + 'px Orbitron';
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
-                rainDrops[i]++;
+        const interval = setInterval(() => {
+            count++;
+            fill.style.width = count + "%";
+            percent.innerText = count + "%";
+            if(count === 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    ui.style.display = 'block';
+                    setTimeout(() => ui.style.opacity = 1, 50);
+                }, 500);
             }
-        };
-        setInterval(draw, 30);
+        }, 30);
 
-        document.getElementById('aegisForm').onsubmit = (e) => {
+        document.getElementById('contact').onsubmit = (e) => {
             e.preventDefault();
-            window.location.href = "https://wa.me/584262271349?text=" + encodeURIComponent("🚨 *NOTIFICACIÓN DE SISTEMA AEGIS*");
+            window.location.href = "https://wa.me/584262271349?text=" + encodeURIComponent("🚨 PROTOCOLO AEGIS ACTIVADO");
         };
     </script>
 </body>
