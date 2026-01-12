@@ -10,54 +10,69 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif; display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
 
-        #activador { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; text-align: center; }
-        .glitch { font-family: 'Orbitron'; color: var(--cyan); font-size: 1.2rem; text-shadow: 2px 2px var(--pink); animation: blink 1s infinite; letter-spacing: 3px; }
+        /* Pantalla de Inicio Holográfica */
+        #activador { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .glitch { font-family: 'Orbitron'; color: var(--cyan); font-size: 1.5rem; text-shadow: 0 0 10px var(--cyan); animation: blink 1s infinite; letter-spacing: 5px; }
 
-        .container { width: 100%; max-width: 450px; padding: 25px; text-align: center; border: 1px solid var(--cyan); background: rgba(0,0,0,0.9); margin: 20px; display: none; box-shadow: 0 0 20px var(--cyan); border-radius: 10px; }
-
-        .profile-img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--cyan); margin: 0 auto 20px; display: block; object-fit: cover; box-shadow: 0 0 25px var(--cyan); }
+        /* Contenedor Principal Stark Edition */
+        .container { width: 100%; max-width: 450px; padding: 30px; text-align: center; border: 1px solid var(--cyan); background: rgba(0, 5, 10, 0.95); margin: 20px; display: none; box-shadow: 0 0 40px rgba(0, 242, 255, 0.2); border-radius: 20px; position: relative; overflow: hidden; }
         
-        h1 { font-family: 'Orbitron'; color: var(--cyan); font-size: 1.6rem; letter-spacing: 2px; text-transform: uppercase; }
-        .quote { color: var(--pink); font-style: italic; margin: 20px 0; border-left: 3px solid var(--pink); padding-left: 10px; text-align: left; font-size: 0.9rem; }
+        /* Línea de Escáner Láser */
+        .container::after { content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 5px; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); animation: scan 4s infinite linear; opacity: 0.5; }
 
-        input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: #111; border: 1px solid var(--cyan); color: #fff; font-family: 'Rajdhani'; outline: none; }
-        .btn-wa { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; }
-        .btn-wa:hover { background: var(--cyan); color: #000; box-shadow: 0 0 15px var(--cyan); }
+        /* Foto y Logo Circulares con Borde Azul */
+        .circular-frame { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--cyan); margin: 0 auto 20px; display: block; object-fit: cover; box-shadow: 0 0 20px var(--cyan); background: #000; }
+        .logo-frame { width: 110px; height: 110px; border: 2px solid var(--cyan); padding: 5px; box-shadow: 0 0 15px var(--cyan); }
 
-        .logo-footer { width: 100px; margin: 25px auto 10px; display: block; filter: drop-shadow(0 0 5px var(--cyan)); }
-        .copyright { font-size: 0.65rem; color: var(--cyan); opacity: 0.8; letter-spacing: 1px; margin-top: 10px; text-transform: uppercase; }
+        h1 { font-family: 'Orbitron'; color: var(--cyan); font-size: 1.7rem; letter-spacing: 2px; text-shadow: 0 0 10px var(--cyan); }
+        .status { color: #0f0; font-size: 0.7rem; font-family: 'Orbitron'; letter-spacing: 3px; margin-bottom: 20px; }
+        .quote { color: var(--pink); font-style: italic; margin: 25px 0; border-left: 3px solid var(--pink); padding-left: 15px; text-align: left; font-size: 0.95rem; }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 12px; background: rgba(0, 242, 255, 0.05); border: 1px solid var(--cyan); color: #fff; font-family: 'Rajdhani'; outline: none; transition: 0.3s; }
+        input:focus { box-shadow: 0 0 15px var(--cyan); }
+
+        .btn { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); font-family: 'Orbitron'; cursor: pointer; transition: 0.4s; text-transform: uppercase; margin-top: 10px; letter-spacing: 2px; }
+        .btn:hover { background: var(--cyan); color: #000; box-shadow: 0 0 30px var(--cyan); }
+        .btn-pink { border-color: var(--pink); color: var(--pink); }
+        .btn-pink:hover { background: var(--pink); color: #fff; box-shadow: 0 0 30px var(--pink); }
+
+        /* Derechos de Autor Scarlet Fuenmayor */
+        .copyright { font-size: 0.7rem; color: var(--cyan); opacity: 0.9; letter-spacing: 2px; margin-top: 25px; border-top: 1px solid rgba(0, 242, 255, 0.3); padding-top: 15px; font-family: 'Orbitron'; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
     </style>
 </head>
 <body>
 
-    <div id="activador" onclick="iniciarProtocolo()">
-        <div class="glitch">INICIAR PROTOCOLO AEGIS</div>
-        <p style="color: var(--pink); font-size: 0.7rem; margin-top: 10px;">// ACCESO BIOMÉTRICO REQUERIDO //</p>
+    <div id="activador" onclick="iniciar()">
+        <div class="glitch">ACCESO BIOMÉTRICO</div>
+        <p style="color: var(--pink); font-size: 0.7rem; margin-top: 15px; letter-spacing: 2px;">IDENTIFICANDO: SCARLET FUENMAYOR</p>
     </div>
 
-    <audio id="audio" loop>
+    <audio id="musica" loop>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container" id="main">
-        <div style="font-size: 0.6rem; color: #0f0; margin-bottom: 15px; letter-spacing: 2px;">ESTADO: VIGILANCIA ACTIVA</div>
+        <div class="status">SISTEMA AEGIS // VIGILANCIA ACTIVA</div>
         
-        <img src="perfil.png" alt="Scarlet Fuenmayor" class="profile-img">
+        <img src="perfil.png" alt="Scarlet Fuenmayor" class="circular-frame">
 
         <h1>SCARLET FUENMAYOR</h1>
-        <p style="font-size: 0.8rem; color: var(--cyan); font-weight: bold;">SYSTEM SECURITY & SUPPORT</p>
+        <p style="color: var(--cyan); font-weight: bold; margin-bottom: 15px;">ADVANCED SYSTEM SECURITY</p>
 
         <div class="quote">"La tecnología debe ser un puente, no una barrera"</div>
 
         <form id="formAegis">
-            <input type="text" id="user" placeholder="NOMBRE DEL CLIENTE // EMPRESA" required>
-            <textarea id="msg" placeholder="DESCRIPCIÓN TÉCNICA DE LA FALLA" rows="3" required></textarea>
-            <button type="submit" class="btn-wa">ENLAZAR WHATSAPP</button>
+            <input type="text" id="user" placeholder="ID CLIENTE O EMPRESA" required>
+            <textarea id="msg" placeholder="DETALLE TÉCNICO DE LA SITUACIÓN" rows="3" required></textarea>
+            <button type="submit" class="btn">ENLAZAR WHATSAPP</button>
         </form>
 
-        <img src="AEGIS.png" alt="Logo AEGIS" class="logo-footer">
+        <button class="btn btn-pink" onclick="window.location.href='mailto:Fuenmayorscarlet610@gmail.com'">PROTOCOLO DE CORREO</button>
+
+        <img src="AEGIS.png" alt="Logo AEGIS" class="circular-frame logo-frame">
 
         <div class="copyright">
             © 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL
@@ -65,8 +80,8 @@
     </div>
 
     <script>
-        function iniciarProtocolo() {
-            document.getElementById('audio').play().catch(() => console.log("Audio bloqueado"));
+        function iniciar() {
+            document.getElementById('musica').play().catch(() => console.log("Audio listo"));
             document.getElementById('activador').style.display = 'none';
             document.getElementById('main').style.display = 'block';
         }
@@ -75,7 +90,7 @@
             e.preventDefault();
             const n = document.getElementById('user').value;
             const m = document.getElementById('msg').value;
-            window.location.href = "https://wa.me/584262271349?text=" + encodeURIComponent("🚨 *SOLICITUD AEGIS*\n\n*Cliente:* " + n + "\n*Falla:* " + m);
+            window.location.href = "https://wa.me/584262271349?text=" + encodeURIComponent("🚨 *SOLICITUD DE INTERVENCIÓN AEGIS*\n\n*Agente:* Scarlet Fuenmayor\n*Cliente:* " + n + "\n*Situación:* " + m);
         };
     </script>
 </body>
