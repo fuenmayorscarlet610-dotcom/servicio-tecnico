@@ -23,13 +23,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Fondo de rejilla técnica */
-            background-image: linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: radial-gradient(circle at center, #001a1a 0%, var(--dark) 100%);
         }
 
-        /* --- LOADING SYSTEM --- */
+        /* --- LOADING TÁCTICO --- */
         #loader {
             position: fixed;
             inset: 0;
@@ -41,47 +38,43 @@
             align-items: center;
         }
 
-        .loading-box {
-            border: 1px solid var(--cyan);
-            padding: 20px;
-            background: var(--panel);
-            text-align: center;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-        }
+        .bar-bg { width: 250px; height: 3px; background: #111; margin: 20px 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.3); }
+        .bar-fill { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: 0.1s; }
 
-        .bar-bg { width: 200px; height: 2px; background: #111; margin: 15px 0; position: relative; }
-        .bar-fill { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
-
-        /* --- INTERFAZ INTEGRADA --- */
+        /* --- CHASIS INTEGRADO (Estilo tu captura favorita) --- */
         .main-chassis {
-            width: 90%;
-            max-width: 450px;
+            width: 85%;
+            max-width: 420px;
             background: var(--panel);
-            border: 1px solid var(--cyan);
-            border-radius: 40px;
-            padding: 0; /* Para integrar la imagen arriba */
-            box-shadow: 0 0 50px rgba(0,0,0,1), 0 0 20px rgba(0, 242, 255, 0.2);
+            border: 2px solid var(--cyan);
+            border-radius: 50px; /* Marcos redondeados perfectos */
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
             overflow: hidden;
-            display: none; /* Se activa tras el loading */
+            display: none;
+            position: relative;
+            animation: emerge 1.2s ease-out;
         }
 
-        /* Cabecera integrada con la foto */
-        .chassis-header {
-            background: linear-gradient(to bottom, rgba(0,242,255,0.1), transparent);
-            padding: 30px 20px 10px;
-            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
+        @keyframes emerge {
+            from { opacity: 0; transform: scale(0.9) translateY(30px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .header-integrated {
+            padding: 40px 20px 20px;
+            background: linear-gradient(180deg, rgba(0,242,255,0.1) 0%, transparent 100%);
             text-align: center;
         }
 
-        .profile-frame {
-            width: 120px;
-            height: 120px;
+        .profile-hex {
+            width: 130px;
+            height: 130px;
             margin: 0 auto;
-            border: 2px solid var(--cyan);
+            border: 3px solid var(--cyan);
             border-radius: 50%;
-            padding: 4px;
+            padding: 5px;
             background: var(--dark);
-            box-shadow: 0 0 15px var(--cyan);
+            box-shadow: 0 0 20px var(--cyan);
         }
 
         .profile-img {
@@ -89,137 +82,126 @@
             height: 100%;
             border-radius: 50%;
             background: url('perfil.png') center/cover no-repeat;
-            filter: grayscale(30%) contrast(110%);
         }
 
-        .dev-tag {
+        .dev-status {
             color: var(--pink);
-            font-size: 0.6rem;
+            font-size: 0.65rem;
             letter-spacing: 4px;
-            margin-top: 15px;
+            margin: 20px 0 10px;
             font-weight: bold;
+            text-shadow: 0 0 10px var(--pink);
         }
 
-        /* Cuerpo del formulario */
-        .chassis-body { padding: 25px; }
+        /* --- INPUTS Y ACCIÓN --- */
+        .body-content { padding: 0 35px 35px; }
 
-        .input-field {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            border-left: 4px solid var(--cyan);
-            border-radius: 8px;
-            padding: 15px;
-            color: var(--cyan);
+        .tactical-input {
             width: 100%;
-            margin-bottom: 15px;
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
             font-family: 'Share Tech Mono';
+            margin-bottom: 15px;
             box-sizing: border-box;
+            outline: none;
         }
 
-        .btn-ignite {
+        .btn-link {
             width: 100%;
             padding: 18px;
-            background: transparent;
-            border: 1px solid var(--pink);
-            color: var(--pink);
-            border-radius: 40px;
+            background: var(--cyan);
+            border: none;
+            border-radius: 15px;
+            color: var(--dark);
             font-family: 'Orbitron';
-            font-weight: bold;
+            font-weight: 900;
             cursor: pointer;
-            transition: 0.4s;
-            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
         }
 
-        .btn-ignite:hover {
-            background: var(--pink);
-            color: white;
-            box-shadow: 0 0 30px var(--pink);
-        }
+        .btn-link:hover { background: var(--pink); color: white; box-shadow: 0 0 25px var(--pink); }
 
-        /* FRASE CON EFECTO TYPEWRITER */
-        .typewriter-box {
-            min-height: 40px;
-            margin-top: 20px;
+        /* EFECTO TYPEWRITER */
+        .phrase-box {
+            margin-top: 25px;
+            min-height: 45px;
             font-family: 'Share Tech Mono';
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--cyan);
-            text-align: center;
+            line-height: 1.4;
         }
 
-        .footer-logo-area {
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
+        .aegis-footer {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            gap: 15px;
         }
 
-        .aegis-logo-small { width: 40px; opacity: 0.8; }
+        .aegis-logo { width: 50px; filter: drop-shadow(0 0 8px var(--cyan)); }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div class="loading-box">
-        <div style="font-size: 0.6rem; color: var(--cyan);">ACCESSING ENCRYPTED CORE...</div>
-        <div class="bar-bg"><div class="bar-fill" id="fill"></div></div>
-        <button id="entry-btn" onclick="startCore()" style="display:none; background:none; border:1px solid var(--cyan); color:var(--cyan); padding:5px 15px; cursor:pointer; font-family:'Orbitron'; font-size: 0.7rem;">INGRESAR AL SISTEMA</button>
-    </div>
+    <div style="font-size: 0.7rem; color: var(--cyan); letter-spacing: 3px;">BYPASSING SECURITY...</div>
+    <div class="bar-bg"><div class="bar-fill" id="fill"></div></div>
+    <button id="access-btn" onclick="activateSystem()" style="display:none; background:none; border:1px solid var(--pink); color:var(--pink); padding:10px 25px; cursor:pointer; font-family:'Orbitron';">INICIAR ENLACE</button>
 </div>
 
 <div class="main-chassis" id="chassis">
-    <div class="chassis-header">
-        <div class="profile-frame">
-            <div class="profile-img"></div>
+    <div class="header-integrated">
+        <div class="profile-hex"><div class="profile-img"></div></div>
+        <div class="dev-status">TECH DEVELOPER & SECURITY</div>
+        <h2 style="margin: 0; font-size: 1.1rem; letter-spacing: 2px;">SCARLET FUENMAYOR</h2>
+    </div>
+
+    <div class="body-content">
+        <input type="text" class="tactical-input" placeholder="[ NOMBRE O EMPRESA ]">
+        <button class="btn-link">ENLAZAR SISTEMA</button>
+        <div class="phrase-box" id="writer"></div>
+    </div>
+
+    <div class="aegis-footer">
+        <img src="AEGIS.png" class="aegis-logo" alt="AEGIS">
+        <div style="font-size: 0.55rem; opacity: 0.5; margin-top: 10px; text-align: center;">
+            © 2026 SCARLET FUENMAYOR<br>PROTOCOL AEGIS V4.0
         </div>
-        <div class="dev-tag">SR. TECH DEVELOPER</div>
-        <h2 style="margin: 10px 0 5px; font-size: 1rem;">SCARLET FUENMAYOR</h2>
-    </div>
-
-    <div class="chassis-body">
-        <input type="text" class="input-field" placeholder="[ NOMBRE O EMPRESA ]">
-        <textarea class="input-field" rows="2" placeholder="[ REPORTE DE SISTEMA ]"></textarea>
-        <button class="btn-ignite">ESTABLECER VÍNCULO</button>
-        
-        <div class="typewriter-box" id="phrase-target"></div>
-    </div>
-
-    <div class="footer-logo-area">
-        <img src="AEGIS.png" class="aegis-logo-small" alt="AEGIS">
-        <div style="font-size: 0.5rem; opacity: 0.5;">© 2026 SCARLET FUENMAYOR<br>PROTOCOL AEGIS V4.0</div>
     </div>
 </div>
 
 <audio id="bg-audio" loop><source src="musica.mp3" type="audio/mpeg"></audio>
 
 <script>
-    // Lógica de carga
     let p = 0;
     const interval = setInterval(() => {
         p++;
         document.getElementById('fill').style.width = p + "%";
         if(p >= 100) {
             clearInterval(interval);
-            document.getElementById('entry-btn').style.display = "block";
+            document.getElementById('access-btn').style.display = "block";
         }
-    }, 30);
+    }, 25);
 
-    function startCore() {
+    function activateSystem() {
         document.getElementById('bg-audio').play();
         document.getElementById('loader').style.display = "none";
         document.getElementById('chassis').style.display = "block";
-        startTypewriter();
+        typeMessage();
     }
 
-    // Efecto de escritura para tu frase icónica
-    const phrase = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
-    let index = 0;
-    function startTypewriter() {
-        if (index < phrase.length) {
-            document.getElementById("phrase-target").innerHTML += phrase.charAt(index);
-            index++;
-            setTimeout(startTypewriter, 70);
+    const message = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
+    let charIndex = 0;
+    function typeMessage() {
+        if (charIndex < message.length) {
+            document.getElementById("writer").innerHTML += message.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeMessage, 60);
         }
     }
 </script>
