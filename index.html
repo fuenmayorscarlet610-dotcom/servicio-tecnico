@@ -12,7 +12,10 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.3s ease; }
+        /* Loader con Barra que cambia de color */
+        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s ease; }
+        .progress-container { width: 220px; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); position: relative; }
+        #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear, background 0.3s ease; }
 
         .aegis-terminal {
             width: 95vw; height: 96vh;
@@ -38,7 +41,7 @@
 
         .btn-main { width: 100%; padding: 14px; border-radius: 30px; border: none; background: var(--pink); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.8rem; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); text-transform: uppercase; margin-bottom: 12px; }
 
-        .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px; margin-bottom: 15px; }
+        .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px; margin-bottom: 10px; }
         .c-link { font-size: 0.5rem; padding: 10px 2px; border-radius: 12px; color: white; text-decoration: none; font-weight: bold; text-align: center; }
 
         .catalog { width: 100%; border-top: 1px solid rgba(0, 242, 255, 0.2); padding-top: 10px; margin-top: 5px; text-align: center; }
@@ -54,8 +57,9 @@
 <body>
 
 <div id="loader">
-    <div style="letter-spacing: 8px; font-weight: 900; color: var(--cyan);">AEGIS CORE ACTIVE</div>
-    <button onclick="boot()" id="ignite-btn" style="margin-top:30px; background:none; border:2px solid var(--pink); color:var(--pink); padding:12px 35px; font-family:'Orbitron'; border-radius:25px; font-weight:900; cursor:pointer; opacity: 0; transition: 0.3s;">IGNITE</button>
+    <div id="load-status" style="letter-spacing: 5px; font-weight: 900; color: var(--cyan); font-size: 0.6rem;">CORE INITIALIZING...</div>
+    <div class="progress-container"><div id="progress-bar"></div></div>
+    <button onclick="boot()" id="ignite-btn" style="margin-top:30px; background:none; border:2px solid var(--pink); color:var(--pink); padding:10px 30px; font-family:'Orbitron'; border-radius:25px; font-weight:900; cursor:pointer; opacity: 0; transition: 0.3s; display:none; box-shadow: 0 0 15px var(--pink);">IGNITE SYSTEM</button>
 </div>
 
 <div class="aegis-terminal" id="terminal">
@@ -78,7 +82,7 @@
     </div>
 
     <div class="catalog">
-        <p style="font-size: 0.55rem; color: var(--pink); margin-bottom: 6px; letter-spacing: 2px;">[ UNIDADES DE SERVICIO ]</p>
+        <p style="font-size: 0.5rem; color: var(--pink); margin-bottom: 6px; letter-spacing: 2px;">[ UNIDADES DE SERVICIO ]</p>
         <div class="catalog-grid">
             <div class="cat-item">SISTEMAS CORE</div>
             <div class="cat-item">HARDWARE ARMOR</div>
@@ -97,13 +101,38 @@
 
 <script>
     const bgm = document.getElementById('bgm');
-    window.onload = () => { document.getElementById('ignite-btn').style.opacity = '1'; };
+    const bar = document.getElementById('progress-bar');
+    const ignite = document.getElementById('ignite-btn');
+    const status = document.getElementById('load-status');
+
+    let width = 0;
+    let interval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(interval);
+            status.innerHTML = "SYSTEM READY";
+            status.style.color = "var(--pink)";
+            ignite.style.display = 'block';
+            setTimeout(() => ignite.style.opacity = '1', 50);
+        } else {
+            width++;
+            bar.style.width = width + '%';
+            
+            // Cambio de color gradual
+            if(width > 70) {
+                bar.style.background = "var(--pink)";
+                bar.style.boxShadow = "0 0 15px var(--pink)";
+            }
+        }
+    }, 25); 
 
     function boot() {
         bgm.play().catch(() => {});
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('terminal').style.display = 'flex';
-        type();
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('terminal').style.display = 'flex';
+            type();
+        }, 400);
     }
 
     setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
@@ -118,7 +147,7 @@
         if(!u || !r) return;
 
         document.getElementById('links').style.display = 'grid';
-        document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ SINCRONIZANDO CON EL NÚCLEO... ]</span>";
+        document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ SINCRONIZANDO NÚCLEO... ]</span>";
 
         let info = "Localizando...";
         try {
@@ -130,7 +159,7 @@
         const msg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${u}%0A*REQ:* ${r}%0A*LOC:* ${info}`;
         const token = "8584036667:AAE3Scxy03MuZrtzFQbGPPSh332kpxvFElI";
         
-        // Notificación automática para TI
+        // Notificación automática a Scarlet
         fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=584262271349&text=${msg}&parse_mode=Markdown`);
 
         document.getElementById('wa-btn').href = `https://wa.me/584262271349?text=${msg}`;
@@ -138,7 +167,7 @@
         document.getElementById('tg-btn').href = `https://t.me/AegisSystem_Bot?text=${msg}`;
 
         setTimeout(() => {
-            document.getElementById('phrase').innerHTML = "<span style='color:var(--cyan)'>REPORTE ENVIADO. SELECCIONE CANAL DE ENLACE.</span>";
+            document.getElementById('phrase').innerHTML = "<span style='color:var(--cyan)'>SISTEMA EN LINEA. SELECCIONE CANAL.</span>";
         }, 1000);
     }
 </script>
