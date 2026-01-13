@@ -12,7 +12,7 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        /* Loader con Barra que cambia de color */
+        /* Loader */
         #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s ease; }
         .progress-container { width: 220px; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); position: relative; }
         #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear, background 0.3s ease; }
@@ -22,8 +22,24 @@
             background: rgba(0, 8, 12, 0.98); border: 2px solid var(--cyan);
             border-radius: 45px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
             display: none; flex-direction: column; align-items: center; padding: 15px;
-            position: relative;
+            position: relative; overflow: hidden;
         }
+
+        /* NUEVA MEJORA: Logo de fondo (Marca de Agua) */
+        .aegis-terminal::before {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; height: 80%;
+            background: url('AEGIS.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.08; /* Visibilidad sutil pero presente */
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 1; }
 
         .profile-box { position: relative; width: 85px; height: 85px; margin-bottom: 8px; }
         .ring { width: 100%; height: 100%; border: 3px solid var(--cyan); border-radius: 50%; padding: 4px; overflow: hidden; position: relative; box-shadow: 0 0 15px var(--cyan); }
@@ -36,7 +52,7 @@
         .sync-text { font-family: 'Share Tech Mono'; font-size: 0.6rem; margin: 5px 0 10px; opacity: 0.8; }
 
         .input-group { width: 100%; padding: 0 15px; }
-        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 10px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 8px; outline: none; font-size: 0.8rem; }
+        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.1); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 10px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 8px; outline: none; font-size: 0.8rem; }
         .t-area { height: 50px; resize: none; }
 
         .btn-main { width: 100%; padding: 14px; border-radius: 30px; border: none; background: var(--pink); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.8rem; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); text-transform: uppercase; margin-bottom: 12px; }
@@ -49,8 +65,20 @@
         .cat-item { font-size: 0.5rem; border: 1px solid var(--cyan); border-radius: 6px; padding: 6px; background: rgba(0, 242, 255, 0.05); }
 
         #phrase { min-height: 30px; font-family: 'Share Tech Mono'; font-size: 0.65rem; margin-top: 8px; text-align: center; }
-        .footer-logo { width: 40px; height: 40px; border: 2px solid var(--cyan); border-radius: 50%; margin: 8px 0 5px; padding: 4px; }
-        .footer-logo img { width: 100%; border-radius: 50%; }
+        
+        /* MEJORA: Logo Inferior más visible */
+        .footer-logo { 
+            width: 70px; height: 70px; 
+            border: 2px solid var(--cyan); 
+            border-radius: 50%; 
+            margin: 10px 0 5px; 
+            padding: 5px;
+            background: rgba(0, 242, 255, 0.1);
+            box-shadow: 0 0 15px var(--cyan);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .footer-logo img { width: 100%; border-radius: 50%; filter: brightness(1.2); }
+        
         .copy { font-size: 0.45rem; opacity: 0.6; line-height: 1.2; text-align: center; }
     </style>
 </head>
@@ -116,8 +144,6 @@
         } else {
             width++;
             bar.style.width = width + '%';
-            
-            // Cambio de color gradual
             if(width > 70) {
                 bar.style.background = "var(--pink)";
                 bar.style.boxShadow = "0 0 15px var(--pink)";
@@ -159,7 +185,6 @@
         const msg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${u}%0A*REQ:* ${r}%0A*LOC:* ${info}`;
         const token = "8584036667:AAE3Scxy03MuZrtzFQbGPPSh332kpxvFElI";
         
-        // Notificación automática a Scarlet
         fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=584262271349&text=${msg}&parse_mode=Markdown`);
 
         document.getElementById('wa-btn').href = `https://wa.me/584262271349?text=${msg}`;
