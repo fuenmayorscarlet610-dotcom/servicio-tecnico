@@ -17,7 +17,7 @@
         .progress-container { width: 220px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); }
         #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
 
-        /* Terminal Pulida */
+        /* Terminal Principal */
         .aegis-terminal {
             width: 95vw; height: 96vh;
             background: radial-gradient(circle at center, rgba(0, 40, 60, 0.15) 0%, rgba(1, 5, 8, 1) 100%);
@@ -29,6 +29,7 @@
 
         .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; }
 
+        /* Perfil */
         .profile-box { position: relative; width: 90px; height: 90px; margin-bottom: 10px; }
         .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
         .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('perfil.png') center/cover no-repeat; border: 1px solid rgba(0, 242, 255, 0.3); }
@@ -36,59 +37,84 @@
         @keyframes scan { 0% { top: 10%; opacity: 0; } 50% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
 
         .dev-tag { color: var(--pink); font-size: 0.6rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 4px; text-shadow: 0 0 10px var(--pink); }
-        h2 { margin: 0; font-size: 1.1rem; letter-spacing: 2px; color: #fff; }
+        h2 { margin: 0; font-size: 1.1rem; letter-spacing: 2px; color: #fff; text-align: center; }
         .sync-text { font-family: 'Share Tech Mono'; font-size: 0.65rem; margin: 8px 0 15px; color: var(--cyan); opacity: 0.9; text-transform: uppercase; }
 
-        /* Campos de texto con mejor contraste */
+        /* Formulario */
         .input-group { width: 100%; padding: 0 20px; }
         .t-field, .t-area { 
             width: 100%; background: rgba(0, 242, 255, 0.08); 
             border: 1px solid rgba(0, 242, 255, 0.3); 
             border-radius: 12px; padding: 12px; color: #fff; 
             font-family: 'Share Tech Mono'; margin-bottom: 12px; 
-            outline: none; font-size: 0.85rem; transition: 0.3s;
+            outline: none; font-size: 0.85rem; 
         }
-        .t-field:focus, .t-area:focus { border-color: var(--pink); background: rgba(0, 242, 255, 0.15); }
         .t-area { height: 65px; resize: none; }
 
-        /* Botón Principal Destacado */
         .btn-main { 
             width: 100%; padding: 16px; border-radius: 40px; border: none; 
             background: linear-gradient(90deg, #ff00ff, #aa00ff); 
             color: white; font-weight: 900; font-family: 'Orbitron'; 
             cursor: pointer; font-size: 0.85rem; 
             box-shadow: 0 0 25px rgba(255, 0, 255, 0.5); 
-            text-transform: uppercase; margin: 10px 0 20px; 
+            text-transform: uppercase; margin: 5px 0 15px; 
         }
 
         .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 10px; margin-bottom: 15px; }
         .c-link { font-size: 0.55rem; padding: 12px 2px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold; text-align: center; }
 
-        /* Catálogo con mejor espaciado */
-        .catalog { width: 100%; border-top: 1px solid rgba(0, 242, 255, 0.2); padding-top: 15px; margin-top: 10px; }
-        .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 20px; }
+        /* SECCIÓN CORREGIDA: Centrado de Servicios */
+        .catalog { 
+            width: 100%; 
+            border-top: 1px solid rgba(0, 242, 255, 0.2); 
+            padding-top: 15px; 
+            margin-top: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .catalog p { 
+            font-size: 0.55rem; color: var(--pink); 
+            margin-bottom: 10px; letter-spacing: 3px; 
+            font-weight: 700; text-align: center; 
+        }
+        .catalog-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            width: 85%; 
+        }
         .cat-item { 
             font-size: 0.55rem; border: 1px solid var(--cyan); 
             border-radius: 6px; padding: 10px; 
             background: rgba(0, 242, 255, 0.05); 
-            text-transform: uppercase; letter-spacing: 1px; font-weight: bold;
+            text-transform: uppercase; letter-spacing: 1px; 
+            font-weight: bold; text-align: center;
         }
 
         #phrase { min-height: 35px; font-family: 'Share Tech Mono'; font-size: 0.7rem; margin-top: 15px; text-align: center; color: #fff; text-shadow: 0 0 5px var(--cyan); }
         
-        /* Logo de marca con resplandor superior */
+        /* LOGO CON ROTACIÓN TIPO RADAR */
         .footer-logo { 
             width: 75px; height: 75px; 
             border: 2px solid var(--cyan); 
             border-radius: 50%; 
-            margin: 20px 0 10px; 
+            margin: 15px 0 10px; 
             padding: 6px;
             background: #000;
             box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: radar 10s linear infinite;
+        }
+        @keyframes radar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .footer-logo img { width: 100%; border-radius: 50%; filter: brightness(1.1); }
         
-        .copy { font-size: 0.55rem; opacity: 0.8; letter-spacing: 1.5px; text-align: center; color: var(--cyan); }
+        .copy { font-size: 0.5rem; opacity: 0.8; letter-spacing: 1px; text-align: center; color: var(--cyan); }
     </style>
 </head>
 <body>
@@ -119,7 +145,7 @@
     </div>
 
     <div class="catalog">
-        <p style="font-size: 0.55rem; color: var(--pink); margin-bottom: 10px; letter-spacing: 3px; font-weight: 700;">[ SERVICIOS DISPONIBLES ]</p>
+        <p>[ SERVICIOS DISPONIBLES ]</p>
         <div class="catalog-grid">
             <div class="cat-item">SISTEMAS CORE</div>
             <div class="cat-item">HARDWARE ARMOR</div>
@@ -155,11 +181,7 @@
     }, 20); 
 
     function boot() {
-        // Reproducción de audio prioritaria al interactuar
-        bgm.play().then(() => {
-            console.log("Audio activo");
-        }).catch(e => console.log("Interacción requerida"));
-        
+        bgm.play().catch(e => console.log("Audio trigger failed"));
         document.getElementById('loader').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
@@ -168,7 +190,6 @@
         }, 500);
     }
 
-    // Reloj con formato profesional de 12 horas
     setInterval(() => { 
         document.getElementById('clock').innerText = new Date().toLocaleTimeString('es-VE', {
             hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
@@ -192,7 +213,6 @@
         document.getElementById('links').style.display = 'grid';
         document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ SINCRONIZANDO NÚCLEO... ]</span>";
         
-        // Los datos se envían a tu canal de Telegram
         const msg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${u}%0A*REQ:* ${r}`;
         const token = "8584036667:AAE3Scxy03MuZrtzFQbGPPSh332kpxvFElI";
         fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=584262271349&text=${msg}&parse_mode=Markdown`);
