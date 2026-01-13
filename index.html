@@ -12,82 +12,88 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        /* Loader */
-        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.4s ease; }
-        .progress-container { width: 220px; height: 6px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); position: relative; }
-        #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear, background 0.3s ease; }
+        /* Loader Optimizado */
+        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        .progress-container { width: 220px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); }
+        #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
 
         .aegis-terminal {
             width: 95vw; height: 96vh;
-            background: rgba(0, 8, 12, 0.98); border: 2px solid var(--cyan);
-            border-radius: 45px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            background: radial-gradient(circle at center, rgba(0, 40, 60, 0.2) 0%, rgba(1, 5, 8, 1) 100%);
+            border: 2px solid var(--cyan);
+            border-radius: 45px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
             display: none; flex-direction: column; align-items: center; padding: 15px;
             position: relative; overflow: hidden;
         }
 
-        /* NUEVA MEJORA: Logo de fondo (Marca de Agua) */
+        /* FONDO SOFISTICADO: Reemplaza la marca de agua estática por un pulso sutil */
         .aegis-terminal::before {
             content: "";
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%; height: 80%;
+            width: 150%; height: 150%;
             background: url('AEGIS.png') no-repeat center;
-            background-size: contain;
-            opacity: 0.08; /* Visibilidad sutil pero presente */
+            background-size: 40%;
+            opacity: 0.04;
+            filter: grayscale(1) brightness(2);
+            animation: pulseLogo 8s infinite ease-in-out;
             z-index: 0;
             pointer-events: none;
         }
 
-        .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 1; }
-
-        .profile-box { position: relative; width: 85px; height: 85px; margin-bottom: 8px; }
-        .ring { width: 100%; height: 100%; border: 3px solid var(--cyan); border-radius: 50%; padding: 4px; overflow: hidden; position: relative; box-shadow: 0 0 15px var(--cyan); }
-        .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('perfil.png') center/cover no-repeat; }
-        .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 10px var(--pink); animation: scan 2s infinite linear; left: 0; z-index: 5; }
-        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
-
-        .dev-tag { color: var(--pink); font-size: 0.55rem; font-weight: 900; letter-spacing: 3px; margin-bottom: 2px; }
-        h2 { margin: 0; font-size: 1rem; letter-spacing: 1px; }
-        .sync-text { font-family: 'Share Tech Mono'; font-size: 0.6rem; margin: 5px 0 10px; opacity: 0.8; }
-
-        .input-group { width: 100%; padding: 0 15px; }
-        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.1); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 12px; padding: 10px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 8px; outline: none; font-size: 0.8rem; }
-        .t-area { height: 50px; resize: none; }
-
-        .btn-main { width: 100%; padding: 14px; border-radius: 30px; border: none; background: var(--pink); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.8rem; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); text-transform: uppercase; margin-bottom: 12px; }
-
-        .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px; margin-bottom: 10px; }
-        .c-link { font-size: 0.5rem; padding: 10px 2px; border-radius: 12px; color: white; text-decoration: none; font-weight: bold; text-align: center; }
-
-        .catalog { width: 100%; border-top: 1px solid rgba(0, 242, 255, 0.2); padding-top: 10px; margin-top: 5px; text-align: center; }
-        .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 10px; }
-        .cat-item { font-size: 0.5rem; border: 1px solid var(--cyan); border-radius: 6px; padding: 6px; background: rgba(0, 242, 255, 0.05); }
-
-        #phrase { min-height: 30px; font-family: 'Share Tech Mono'; font-size: 0.65rem; margin-top: 8px; text-align: center; }
-        
-        /* MEJORA: Logo Inferior más visible */
-        .footer-logo { 
-            width: 70px; height: 70px; 
-            border: 2px solid var(--cyan); 
-            border-radius: 50%; 
-            margin: 10px 0 5px; 
-            padding: 5px;
-            background: rgba(0, 242, 255, 0.1);
-            box-shadow: 0 0 15px var(--cyan);
-            display: flex; align-items: center; justify-content: center;
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); opacity: 0.03; }
+            50% { transform: scale(1.1); opacity: 0.06; }
         }
-        .footer-logo img { width: 100%; border-radius: 50%; filter: brightness(1.2); }
+
+        .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; }
+
+        .profile-box { position: relative; width: 90px; height: 90px; margin-bottom: 10px; }
+        .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('perfil.png') center/cover no-repeat; border: 1px solid rgba(0, 242, 255, 0.3); }
+        .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 2.5s infinite ease-in-out; left: 0; z-index: 5; }
+        @keyframes scan { 0% { top: 10%; opacity: 0; } 50% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
+
+        .dev-tag { color: var(--pink); font-size: 0.6rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 4px; text-shadow: 0 0 10px var(--pink); }
+        h2 { margin: 0; font-size: 1.1rem; letter-spacing: 2px; color: #fff; }
+        .sync-text { font-family: 'Share Tech Mono'; font-size: 0.65rem; margin: 8px 0 15px; color: var(--cyan); opacity: 0.9; }
+
+        .input-group { width: 100%; padding: 0 20px; }
+        .t-field, .t-area { width: 100%; background: rgba(0, 242, 255, 0.03); border: 1px solid rgba(0, 242, 255, 0.15); border-radius: 8px; padding: 12px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 10px; outline: none; font-size: 0.85rem; transition: 0.3s; }
+        .t-field:focus, .t-area:focus { background: rgba(0, 242, 255, 0.08); border-color: var(--cyan); box-shadow: 0 0 10px rgba(0, 242, 255, 0.2); }
+        .t-area { height: 60px; }
+
+        .btn-main { width: 100%; padding: 16px; border-radius: 40px; border: none; background: linear-gradient(90deg, #ff00ff, #aa00ff); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.85rem; box-shadow: 0 0 25px rgba(255, 0, 255, 0.4); text-transform: uppercase; margin-bottom: 15px; }
+
+        .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 10px; margin-bottom: 15px; }
+        .c-link { font-size: 0.55rem; padding: 12px 2px; border-radius: 8px; color: white; text-decoration: none; font-weight: bold; text-align: center; letter-spacing: 1px; }
+
+        .catalog { width: 100%; border-top: 1px solid rgba(0, 242, 255, 0.1); padding-top: 15px; margin-top: 5px; }
+        .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 20px; }
+        .cat-item { font-size: 0.55rem; border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 4px; padding: 8px; background: rgba(0, 242, 255, 0.02); text-transform: uppercase; letter-spacing: 1px; }
+
+        #phrase { min-height: 35px; font-family: 'Share Tech Mono'; font-size: 0.7rem; margin-top: 10px; text-align: center; color: #fff; text-shadow: 0 0 5px var(--cyan); }
         
-        .copy { font-size: 0.45rem; opacity: 0.6; line-height: 1.2; text-align: center; }
+        /* LOGO INFERIOR: Estilo Botón Flotante */
+        .footer-logo { 
+            width: 60px; height: 60px; 
+            border: 1px solid var(--cyan); 
+            border-radius: 50%; 
+            margin: 10px 0; 
+            padding: 4px;
+            background: rgba(1, 5, 8, 0.8);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+        .footer-logo img { width: 100%; border-radius: 50%; filter: drop-shadow(0 0 5px var(--cyan)); }
+        
+        .copy { font-size: 0.5rem; opacity: 0.5; letter-spacing: 1px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div id="loader">
-    <div id="load-status" style="letter-spacing: 5px; font-weight: 900; color: var(--cyan); font-size: 0.6rem;">CORE INITIALIZING...</div>
+    <div id="load-status" style="letter-spacing: 5px; font-weight: 900; color: var(--cyan); font-size: 0.6rem;">INITIALIZING SYSTEM...</div>
     <div class="progress-container"><div id="progress-bar"></div></div>
-    <button onclick="boot()" id="ignite-btn" style="margin-top:30px; background:none; border:2px solid var(--pink); color:var(--pink); padding:10px 30px; font-family:'Orbitron'; border-radius:25px; font-weight:900; cursor:pointer; opacity: 0; transition: 0.3s; display:none; box-shadow: 0 0 15px var(--pink);">IGNITE SYSTEM</button>
+    <button onclick="boot()" id="ignite-btn" style="margin-top:40px; background:var(--pink); border:none; color:white; padding:12px 40px; font-family:'Orbitron'; border-radius:30px; font-weight:900; cursor:pointer; opacity: 0; display:none; box-shadow: 0 0 20px var(--pink);">IGNITE CORE</button>
 </div>
 
 <div class="aegis-terminal" id="terminal">
@@ -99,18 +105,18 @@
     <div class="sync-text">[ UPLINK ACTIVE: <span id="clock"></span> ]</div>
 
     <div class="input-group">
-        <input type="text" id="c-name" class="t-field" placeholder="CLIENTE / EMPRESA">
-        <textarea id="c-req" class="t-area" placeholder="REQUERIMIENTOS TÉCNICOS"></textarea>
+        <input type="text" id="c-name" class="t-field" placeholder="CLIENTE / ENTIDAD">
+        <textarea id="c-req" class="t-area" placeholder="DESCRIBA REQUERIMIENTOS TÉCNICOS"></textarea>
         <button class="btn-main" onclick="execute()">ENLAZAR SERVICIOS</button>
         <div class="grid-links" id="links">
-            <a id="wa-btn" href="#" target="_blank" class="c-link" style="background: #25D366;">WHATSAPP</a>
+            <a id="wa-btn" href="#" target="_blank" class="c-link" style="background: #128C7E;">WHATSAPP</a>
             <a id="tg-btn" href="#" target="_blank" class="c-link" style="background: #0088cc;">TELEGRAM</a>
-            <a id="em-btn" href="#" class="c-link" style="background: #D44638;">EMAIL</a>
+            <a id="em-btn" href="#" class="c-link" style="background: #b33939;">EMAIL</a>
         </div>
     </div>
 
     <div class="catalog">
-        <p style="font-size: 0.5rem; color: var(--pink); margin-bottom: 6px; letter-spacing: 2px;">[ UNIDADES DE SERVICIO ]</p>
+        <p style="font-size: 0.55rem; color: var(--pink); margin-bottom: 8px; letter-spacing: 3px; font-weight: 700;">[ SERVICIOS DISPONIBLES ]</p>
         <div class="catalog-grid">
             <div class="cat-item">SISTEMAS CORE</div>
             <div class="cat-item">HARDWARE ARMOR</div>
@@ -120,7 +126,6 @@
     <div id="phrase"></div>
     <div class="footer-logo"><img src="AEGIS.png" alt="AEGIS"></div>
     <div class="copy">
-        "LA TECNOLOGÍA ES UN PUENTE, NO UNA BARRERA"<br>
         © 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL
     </div>
 </div>
@@ -138,34 +143,41 @@
         if (width >= 100) {
             clearInterval(interval);
             status.innerHTML = "SYSTEM READY";
-            status.style.color = "var(--pink)";
             ignite.style.display = 'block';
             setTimeout(() => ignite.style.opacity = '1', 50);
         } else {
-            width++;
+            width += 2;
             bar.style.width = width + '%';
-            if(width > 70) {
-                bar.style.background = "var(--pink)";
-                bar.style.boxShadow = "0 0 15px var(--pink)";
-            }
         }
-    }, 25); 
+    }, 20); 
 
+    // SOLUCIÓN AUDIO: El audio se activa al hacer clic en el botón de inicio del sistema
     function boot() {
-        bgm.play().catch(() => {});
+        bgm.play().then(() => {
+            console.log("Audio activo");
+        }).catch(e => console.log("Error audio:", e));
+        
         document.getElementById('loader').style.opacity = '0';
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('terminal').style.display = 'flex';
             type();
-        }, 400);
+        }, 500);
     }
 
-    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+    setInterval(() => { 
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString(); 
+    }, 1000);
 
     const txt = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
     let n = 0;
-    function type() { if(n < txt.length) { document.getElementById('phrase').innerHTML += txt.charAt(n); n++; setTimeout(type, 30); } }
+    function type() { 
+        if(n < txt.length) { 
+            document.getElementById('phrase').innerHTML += txt.charAt(n); 
+            n++; 
+            setTimeout(type, 40); 
+        } 
+    }
 
     async function execute() {
         const u = document.getElementById('c-name').value;
@@ -175,14 +187,7 @@
         document.getElementById('links').style.display = 'grid';
         document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ SINCRONIZANDO NÚCLEO... ]</span>";
 
-        let info = "Localizando...";
-        try {
-            const res = await fetch('https://ipapi.co/json/');
-            const d = await res.json();
-            info = `${d.city}, ${d.country_name}`;
-        } catch(e) { info = "Ubicación Privada"; }
-
-        const msg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${u}%0A*REQ:* ${r}%0A*LOC:* ${info}`;
+        const msg = `🚨 *ALERTA AEGIS PRO*%0A*CLIENTE:* ${u}%0A*REQ:* ${r}`;
         const token = "8584036667:AAE3Scxy03MuZrtzFQbGPPSh332kpxvFElI";
         
         fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=584262271349&text=${msg}&parse_mode=Markdown`);
@@ -192,7 +197,7 @@
         document.getElementById('tg-btn').href = `https://t.me/AegisSystem_Bot?text=${msg}`;
 
         setTimeout(() => {
-            document.getElementById('phrase').innerHTML = "<span style='color:var(--cyan)'>SISTEMA EN LINEA. SELECCIONE CANAL.</span>";
+            document.getElementById('phrase').innerHTML = "SISTEMA EN LINEA. SELECCIONE CANAL.";
         }, 1000);
     }
 </script>
