@@ -4,222 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AEGIS CORE PRO | © SCARLET FUENMAYOR</title>
-    <link rel="preload" href="perfil.png" as="image">
-    <link rel="preload" href="AEGIS.png" as="image">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
         :root { --cyan: #00f2ff; --pink: #ff00ff; --dark: #010508; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100vh; width: 100vw; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        body, html { background-color: var(--dark); color: var(--cyan); font-family: 'Orbitron', sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 
-        /* Loader */
-        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
-        .progress-container { width: 220px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); }
-        #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
-
-        /* Terminal Principal */
         .aegis-terminal {
-            width: 95vw; height: 96vh;
+            width: 95vw; height: 96vh; border: 2px solid var(--cyan); border-radius: 40px;
             background: radial-gradient(circle at center, rgba(0, 40, 60, 0.15) 0%, rgba(1, 5, 8, 1) 100%);
-            border: 2px solid var(--cyan);
-            border-radius: 45px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
-            display: none; flex-direction: column; align-items: center; padding: 20px 15px;
-            position: relative; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; padding: 15px; position: relative;
         }
 
-        .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; }
+        /* BARRA DE PESTAÑAS */
+        .tab-bar { display: flex; width: 100%; justify-content: space-around; margin-bottom: 20px; border-bottom: 1px solid rgba(0, 242, 255, 0.3); }
+        .tab-item { padding: 10px; font-size: 0.7rem; cursor: pointer; color: var(--cyan); opacity: 0.6; transition: 0.3s; font-weight: 900; }
+        .tab-item.active { opacity: 1; border-bottom: 2px solid var(--pink); color: #fff; }
 
-        /* Perfil */
-        .profile-box { position: relative; width: 90px; height: 90px; margin-bottom: 10px; }
-        .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
-        .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('perfil.png') center/cover no-repeat; border: 1px solid rgba(0, 242, 255, 0.3); }
-        .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 2.5s infinite ease-in-out; left: 0; z-index: 5; }
-        @keyframes scan { 0% { top: 10%; opacity: 0; } 50% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
+        /* CONTENEDORES DE PESTAÑAS */
+        .tab-content { display: none; width: 100%; flex-direction: column; align-items: center; overflow-y: auto; }
+        .tab-content.active { display: flex; }
 
-        .dev-tag { color: var(--pink); font-size: 0.6rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 4px; text-shadow: 0 0 10px var(--pink); }
-        h2 { margin: 0; font-size: 1.1rem; letter-spacing: 2px; color: #fff; text-align: center; }
-        .sync-text { font-family: 'Share Tech Mono'; font-size: 0.65rem; margin: 8px 0 15px; color: var(--cyan); opacity: 0.9; text-transform: uppercase; }
+        /* PESTAÑA SERVICIOS */
+        .service-card { width: 90%; background: rgba(0, 242, 255, 0.05); border: 1px solid var(--cyan); border-radius: 15px; padding: 12px; margin-bottom: 10px; }
+        .service-card h3 { font-size: 0.8rem; margin: 0 0 5px 0; color: var(--pink); }
+        .service-card p { font-size: 0.65rem; font-family: 'Share Tech Mono'; margin: 0; color: #fff; }
 
-        /* Formulario */
-        .input-group { width: 100%; padding: 0 20px; }
-        .t-field, .t-area { 
-            width: 100%; background: rgba(0, 242, 255, 0.08); 
-            border: 1px solid rgba(0, 242, 255, 0.3); 
-            border-radius: 12px; padding: 12px; color: #fff; 
-            font-family: 'Share Tech Mono'; margin-bottom: 12px; 
-            outline: none; font-size: 0.85rem; 
-        }
-        .t-area { height: 65px; resize: none; }
+        /* FORMULARIO Y CONTACTO */
+        .t-field, .t-area { width: 90%; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 12px; padding: 12px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 10px; outline: none; }
+        .btn-main { width: 90%; padding: 15px; border-radius: 40px; border: none; background: linear-gradient(90deg, #ff00ff, #aa00ff); color: white; font-weight: 900; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 255, 0.4); }
 
-        .btn-main { 
-            width: 100%; padding: 16px; border-radius: 40px; border: none; 
-            background: linear-gradient(90deg, #ff00ff, #aa00ff); 
-            color: white; font-weight: 900; font-family: 'Orbitron'; 
-            cursor: pointer; font-size: 0.85rem; 
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.5); 
-            text-transform: uppercase; margin: 5px 0 15px; 
-        }
+        .grid-links { display: none; width: 90%; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+        .c-link { display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 50%; border: 1px solid var(--cyan); background: rgba(0,0,0,0.3); }
+        .c-link img { width: 25px; height: 25px; }
 
-        /* CONTACTOS CON LOGOS */
-        .grid-links { 
-            display: none; width: 100%; grid-template-columns: repeat(3, 1fr); 
-            gap: 15px; padding: 0 20px; margin-bottom: 15px; 
-        }
-        .c-link { 
-            display: flex; justify-content: center; align-items: center; 
-            padding: 12px; border-radius: 12px; border: 1px solid var(--cyan);
-            background: rgba(0, 0, 0, 0.3); transition: 0.3s;
-        }
-        .c-link img { width: 24px; height: 24px; filter: drop-shadow(0 0 5px var(--cyan)); }
-        
-        #wa-btn { border-color: #25D366; }
-        #tg-btn { border-color: #0088cc; }
-        #em-btn { border-color: #ea4335; }
-
-        /* SECCIÓN CATÁLOGO */
-        .catalog { 
-            width: 100%; border-top: 1px solid rgba(0, 242, 255, 0.2); 
-            padding-top: 15px; margin-top: 10px; 
-            display: flex; flex-direction: column; align-items: center; 
-        }
-        .catalog p { 
-            font-size: 0.55rem; color: var(--pink); 
-            margin-bottom: 10px; letter-spacing: 3px; 
-            font-weight: 700; text-align: center; 
-        }
-        .catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 85%; }
-        .cat-item { 
-            font-size: 0.55rem; border: 1px solid var(--cyan); 
-            border-radius: 6px; padding: 10px; 
-            background: rgba(0, 242, 255, 0.05); 
-            text-transform: uppercase; letter-spacing: 1px; 
-            font-weight: bold; text-align: center; cursor: pointer; transition: 0.3s;
-        }
-        .cat-item.active { background: var(--pink); color: #fff; border-color: #fff; box-shadow: 0 0 10px var(--pink); }
-
-        #phrase { min-height: 35px; font-family: 'Share Tech Mono'; font-size: 0.7rem; margin-top: 15px; text-align: center; color: #fff; text-shadow: 0 0 5px var(--cyan); }
-        
-        .footer-logo { 
-            width: 85px; height: 85px; border: 2px solid var(--cyan); 
-            border-radius: 50%; margin: 15px 0 10px; padding: 8px;
-            background: #000; box-shadow: 0 0 20px rgba(0, 242, 255, 0.6);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .footer-logo img { width: 100%; border-radius: 50%; filter: brightness(1.2) contrast(1.1); }
-        .copy { font-size: 0.5rem; opacity: 0.8; letter-spacing: 1px; text-align: center; color: var(--cyan); }
+        .profile-img-small { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--cyan); background: url('perfil.png') center/cover; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-<div id="loader">
-    <div id="load-status" style="letter-spacing: 5px; font-weight: 900; color: var(--cyan); font-size: 0.6rem;">INITIALIZING SYSTEM...</div>
-    <div class="progress-container"><div id="progress-bar"></div></div>
-    <button onclick="boot()" id="ignite-btn" style="margin-top:40px; background:var(--pink); border:none; color:white; padding:12px 40px; font-family:'Orbitron'; border-radius:30px; font-weight:900; cursor:pointer; opacity: 0; display:none; box-shadow: 0 0 20px var(--pink);">IGNITE CORE</button>
-</div>
-
-<div class="aegis-terminal" id="terminal">
-    <div class="profile-box">
-        <div class="ring"><div class="laser"></div><div class="profile-img"></div></div>
+<div class="aegis-terminal">
+    <div class="tab-bar">
+        <div class="tab-item active" onclick="switchTab('perfil')">PERFIL</div>
+        <div class="tab-item" onclick="switchTab('servicios')">SERVICIOS</div>
+        <div class="tab-item" onclick="switchTab('contacto')">CONTACTO</div>
     </div>
-    <div class="dev-tag">SR. TECH DEVELOPER</div>
-    <h2>SCARLET FUENMAYOR</h2>
-    <div class="sync-text">[ UPLINK ACTIVE: <span id="clock"></span> ]</div>
 
-    <div class="input-group">
-        <input type="text" id="c-name" class="t-field" placeholder="CLIENTE / ENTIDAD">
-        <textarea id="c-req" class="t-area" placeholder="DESCRIBA REQUERIMIENTOS TÉCNICOS"></textarea>
-        <button class="btn-main" onclick="execute()">ENLAZAR SERVICIOS</button>
-        
+    <div id="perfil" class="tab-content active">
+        <div class="profile-img-small"></div>
+        <h2 style="font-size: 1rem; color: #fff; margin: 5px 0;">SCARLET FUENMAYOR</h2>
+        <p style="font-size: 0.6rem; color: var(--pink); letter-spacing: 2px;">SR. TECH DEVELOPER</p>
+        <p style="font-size: 0.7rem; text-align: center; padding: 15px; font-family: 'Share Tech Mono';">Especialista en integración de IA, desarrollo de software y soporte técnico avanzado. Operando bajo el Protocolo AEGIS.</p>
+    </div>
+
+    <div id="servicios" class="tab-content">
+        <div class="service-card">
+            <h3>WINDOWS / LINUX</h3>
+            <p>Optimización de kernels, instalación de sistemas LTSC y debloating avanzado.</p>
+        </div>
+        <div class="service-card">
+            <h3>HARDWARE ARMOR</h3>
+            <p>Soporte técnico, reparación de placas y mantenimiento preventivo pro.</p>
+        </div>
+        <div class="service-card">
+            <h3>DESARROLLO WEB</h3>
+            <p>Creación de interfaces Cyberpunk, despliegue en GitHub y optimización UI/UX.</p>
+        </div>
+        <div class="service-card">
+            <h3>LOGIC FORGE</h3>
+            <p>Desarrollo en JavaScript y Python para automatización y módulos de IA.</p>
+        </div>
+    </div>
+
+    <div id="contacto" class="tab-content">
+        <input type="text" id="c-name" class="t-field" placeholder="ID CLIENTE / ENTIDAD">
+        <select id="service-select" class="t-field" style="background: rgba(0, 242, 255, 0.1);">
+            <option value="Windows/Linux">WINDOWS / LINUX</option>
+            <option value="Soporte Técnico">SOPORTE TÉCNICO</option>
+            <option value="Desarrollo Web">DESARROLLO WEB</option>
+            <option value="JS/Python">JAVASCRIPT / PYTHON</option>
+        </select>
+        <textarea id="c-req" class="t-area" placeholder="DESCRIBA EL REQUERIMIENTO"></textarea>
+        <button class="btn-main" onclick="execute()">PROCESAR SOLICITUD</button>
+
         <div class="grid-links" id="links">
             <a id="wa-btn" href="#" target="_blank" class="c-link"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WA"></a>
             <a id="tg-btn" href="#" target="_blank" class="c-link"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="TG"></a>
-            <a id="em-btn" href="#" class="c-link"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email"></a>
+            <a id="em-btn" href="#" class="c-link"><img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Mail"></a>
         </div>
     </div>
-
-    <div class="catalog">
-        <p>[ MÓDULOS DISPONIBLES ]</p>
-        <div class="catalog-grid">
-            <div class="cat-item" onclick="selectModule('SISTEMAS CORE', this)">SISTEMAS CORE</div>
-            <div class="cat-item" onclick="selectModule('HARDWARE ARMOR', this)">HARDWARE ARMOR</div>
-        </div>
-    </div>
-
-    <div id="phrase"></div>
-    <div class="footer-logo"><img src="AEGIS.png" alt="AEGIS"></div>
-    <div class="copy">© 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL</div>
 </div>
 
-<audio id="bgm" loop preload="auto"><source src="musica.mp3" type="audio/mpeg"></audio>
-
 <script>
-    let activeModule = "GENERAL";
-    const bgm = document.getElementById('bgm');
-    const bar = document.getElementById('progress-bar');
-    const ignite = document.getElementById('ignite-btn');
-    const status = document.getElementById('load-status');
-
-    let width = 0;
-    let interval = setInterval(() => {
-        if (width >= 100) {
-            clearInterval(interval);
-            status.innerHTML = "SYSTEM READY";
-            ignite.style.display = 'block';
-            setTimeout(() => ignite.style.opacity = '1', 50);
-        } else {
-            width += 2;
-            bar.style.width = width + '%';
-        }
-    }, 20); 
-
-    function boot() {
-        bgm.play().catch(e => console.log("Audio trigger failed"));
-        document.getElementById('loader').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('terminal').style.display = 'flex';
-            type();
-        }, 500);
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
     }
 
-    function selectModule(name, el) {
-        activeModule = name;
-        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-    }
-
-    setInterval(() => { 
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString('es-VE', {
-            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true
-        }); 
-    }, 1000);
-
-    const txt = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
-    let n = 0;
-    function type() { 
-        if(n < txt.length) { 
-            document.getElementById('phrase').innerHTML += txt.charAt(n); 
-            n++; 
-            setTimeout(type, 40); 
-        } 
-    }
-
-    async function execute() {
+    function execute() {
         const u = document.getElementById('c-name').value;
+        const s = document.getElementById('service-select').value;
         const r = document.getElementById('c-req').value;
         if(!u || !r) return;
+
         document.getElementById('links').style.display = 'grid';
-        document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ SINCRONIZANDO NÚCLEO... ]</span>";
-        
-        const msg = encodeURIComponent(`🚨 *ALERTA AEGIS PRO*\n*CLIENTE:* ${u}\n*MODULO:* ${activeModule}\n*REQ:* ${r}`);
+        const msg = encodeURIComponent(`🚨 *AEGIS REQ*\n*CLIENTE:* ${u}\n*SERVICIO:* ${s}\n*DETALLE:* ${r}`);
         
         document.getElementById('wa-btn').href = `https://wa.me/584262271349?text=${msg}`;
         document.getElementById('tg-btn').href = `https://t.me/+584122401882`;
-        document.getElementById('em-btn').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=AEGIS: ${u}&body=${r}`;
-        
-        setTimeout(() => { document.getElementById('phrase').innerHTML = "SISTEMA EN LINEA. SELECCIONE CANAL."; }, 1000);
+        document.getElementById('em-btn').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=Servicio ${s}&body=${r}`;
     }
 </script>
 </body>
 </html>
-
