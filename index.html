@@ -1,27 +1,175 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>AEGIS CORE PRO | © SCARLET FUENMAYOR</title>
-<link rel="preload" href="perfil.png" as="image">
-<link rel="preload" href="AEGIS.png" as="image">
-<style>
-:root { --hacker-green: #00ff41; --matrix-blue: #00f2ff; --stark-gold: #ffd700; --torvalds-red: #cc0000; --dark-bg: #0a0a14;
-} * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent;
-} body { background-color: var(--dark-bg); color: var(--hacker-green); font-family: 'Courier New', monospace; min-height: 100vh;
-}
-.arc-button { width: 100%; padding: 16px; border-radius: 40px; border: none; background: linear-gradient(90deg, #ff00ff, #aa00ff); color: white; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; font-size: 0.85rem;   
-.box-shadow: 0 0 25px rgba(255, 0, 255, 0.5);
-text-transform: uppercase;
-margin: 5px 0 15px; .grid-links {
-display none width100% grid-template-columns repeat31fr gap10px padding010px margin-bottom15px
-}
-.c-link {
-font-size055rem padding12px2px border-radius8px color white text-decoration none font-weight bold text-align center
-}
-.catalog {
-width100%
-border-top1pix solid rgb /* Aquí falta el resto de tu código original */
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AEGIS CORE PRO | © SCARLET FUENMAYOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --cyan: #00f2ff; 
+            --pink: #ff00ff; 
+            --dark: #010508; 
+            --stark-gold: #ffd700;
+        }
         
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body, html { 
+            background-color: var(--dark); 
+            color: var(--cyan); 
+            font-family: 'Orbitron', sans-serif; 
+            margin: 0; padding: 0; 
+            height: 100vh; width: 100vw; 
+            overflow: hidden; 
+            display: flex; align-items: center; justify-content: center; 
+        }
+
+        /* Efecto Matrix/Scanlines de fondo */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Terminal Principal con diseño HUD */
+        .aegis-terminal {
+            width: 95vw; height: 96vh;
+            background: radial-gradient(circle at center, rgba(0, 40, 60, 0.2) 0%, rgba(1, 5, 8, 1) 100%);
+            border: 2px solid var(--cyan);
+            border-radius: 40px; 
+            box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.3), 0 0 30px rgba(0, 242, 255, 0.1);
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 20px 15px;
+            position: relative; overflow-y: auto; z-index: 10;
+        }
+
+        /* Perfil con Escáner */
+        .profile-box { position: relative; width: 100px; height: 100px; margin-bottom: 10px; }
+        .ring { 
+            width: 100%; height: 100%; 
+            border: 2px solid var(--cyan); border-radius: 50%; 
+            padding: 4px; position: relative; 
+            box-shadow: 0 0 15px var(--cyan);
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        .profile-img { 
+            width: 100%; height: 100%; border-radius: 50%; 
+            background: url('perfil.png') center/cover no-repeat; 
+            background-color: #000;
+        }
+
+        .laser { 
+            position: absolute; width: 100%; height: 2px; 
+            background: var(--pink); box-shadow: 0 0 15px var(--pink); 
+            animation: scan 3s infinite linear; left: 0; z-index: 5; 
+        }
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+
+        /* Tipografía y Textos */
+        .dev-tag { color: var(--pink); font-size: 0.7rem; font-weight: 900; letter-spacing: 3px; margin-bottom: 5px; text-shadow: 0 0 8px var(--pink); }
+        h2 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; color: #fff; text-align: center; }
+        .sync-text { font-family: 'Share Tech Mono'; font-size: 0.7rem; margin: 10px 0; color: var(--cyan); }
+
+        /* Formulario Estilo Stark */
+        .input-group { width: 100%; max-width: 400px; padding: 0 10px; }
+        .t-field, .t-area { 
+            width: 100%; background: rgba(0, 242, 255, 0.05); 
+            border: 1px solid rgba(0, 242, 255, 0.4); 
+            border-radius: 8px; padding: 12px; color: #fff; 
+            font-family: 'Share Tech Mono'; margin-bottom: 10px; 
+            outline: none; transition: 0.3s;
+        }
+        .t-field:focus, .t-area:focus { border-color: var(--pink); background: rgba(255, 0, 255, 0.05); }
+
+        .btn-main { 
+            width: 100%; padding: 15px; border-radius: 30px; border: none; 
+            background: linear-gradient(90deg, var(--pink), #8000ff); 
+            color: white; font-weight: 900; font-family: 'Orbitron'; 
+            cursor: pointer; font-size: 0.9rem; 
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4); 
+            text-transform: uppercase; margin-bottom: 20px;
+        }
+
+        /* Enlaces de contacto */
+        .grid-links { display: none; width: 100%; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px; }
+        .c-link { font-size: 0.6rem; padding: 10px 2px; border-radius: 5px; color: white; text-decoration: none; font-weight: bold; text-align: center; }
+
+        /* Footer y Logo */
+        .footer-logo { 
+            width: 70px; height: 70px; 
+            border: 2px solid var(--cyan); border-radius: 50%; 
+            margin: 10px 0; padding: 5px; background: #000;
+            box-shadow: 0 0 15px var(--cyan);
+        }
+        .footer-logo img { width: 100%; border-radius: 50%; }
+        .copy { font-size: 0.55rem; opacity: 0.7; letter-spacing: 1px; color: var(--cyan); }
+
+    </style>
+</head>
+<body>
+
+<div class="aegis-terminal">
+    <div class="profile-box">
+        <div class="ring"><div class="laser"></div><div class="profile-img"></div></div>
+    </div>
+    <div class="dev-tag">SR. TECH DEVELOPER</div>
+    <h2>SCARLET FUENMAYOR</h2>
+    <div class="sync-text">[ UPLINK ACTIVE: <span id="clock">--:--:--</span> ]</div>
+
+    <div class="input-group">
+        <input type="text" id="c-name" class="t-field" placeholder="CLIENTE / ENTIDAD">
+        <textarea id="c-req" class="t-area" placeholder="REQUERIMIENTOS TÉCNICOS"></textarea>
+        <button class="btn-main" onclick="execute()">ENLAZAR SERVICIOS</button>
+        
+        <div class="grid-links" id="links">
+            <a id="wa-btn" href="#" target="_blank" class="c-link" style="background: #128C7E;">WHATSAPP</a>
+            <a id="tg-btn" href="#" target="_blank" class="c-link" style="background: #0088cc;">TELEGRAM</a>
+            <a id="em-btn" href="#" class="c-link" style="background: #b33939;">EMAIL</a>
+        </div>
+    </div>
+
+    <div id="phrase" style="font-family: 'Share Tech Mono'; font-size: 0.7rem; text-align: center; margin: 10px 0;"></div>
+
+    <div class="footer-logo"><img src="AEGIS.png" alt="AEGIS"></div>
+    <div class="copy">© 2026 SCARLET FUENMAYOR | AEGIS PROTOCOL</div>
+</div>
+
+<script>
+    // Reloj en tiempo real
+    setInterval(() => { 
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString('es-VE'); 
+    }, 1000);
+
+    // Función de ejecución
+    function execute() {
+        const user = document.getElementById('c-name').value;
+        const req = document.getElementById('c-req').value;
+        
+        if(!user || !req) {
+            alert("Por favor, completa los campos de enlace.");
+            return;
+        }
+
+        document.getElementById('links').style.display = 'grid';
+        document.getElementById('phrase').innerHTML = "<span style='color:var(--pink)'>[ ACCESO CONCEDIDO - SELECCIONE CANAL ]</span>";
+        
+        const msg = encodeURIComponent(`🚨 *ALERTA AEGIS PRO*\n*CLIENTE:* ${user}\n*REQ:* ${req}`);
+        
+        // Configurar enlaces
+        document.getElementById('wa-btn').href = `https://wa.me/584262271349?text=${msg}`;
+        document.getElementById('em-btn').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=AEGIS: ${user}&body=${req}`;
+        document.getElementById('tg-btn').href = `https://t.me/AegisSystem_Bot?text=${msg}`;
+    }
+</script>
+
+</body>
+</html>
