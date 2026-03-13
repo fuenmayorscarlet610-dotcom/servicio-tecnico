@@ -16,75 +16,120 @@
             display: flex; flex-direction: column; align-items: center; padding: 15px; position: relative;
         }
 
-        /* BARRA DE PESTAÑAS */
-        .tab-bar { display: flex; width: 100%; justify-content: space-around; margin-bottom: 20px; border-bottom: 1px solid rgba(0, 242, 255, 0.3); }
-        .tab-item { padding: 10px; font-size: 0.7rem; cursor: pointer; color: var(--cyan); opacity: 0.6; transition: 0.3s; font-weight: 900; }
-        .tab-item.active { opacity: 1; border-bottom: 2px solid var(--pink); color: #fff; }
+        /* BARRA DE PESTAÑAS MEJORADA */
+        .tab-bar { 
+            display: flex; width: 100%; justify-content: space-around; 
+            margin-bottom: 20px; border-bottom: 1px solid rgba(0, 242, 255, 0.3); 
+            z-index: 100;
+        }
+        .tab-item { 
+            padding: 12px; font-size: 0.7rem; cursor: pointer; 
+            color: var(--cyan); opacity: 0.5; transition: 0.3s; 
+            font-weight: 900; letter-spacing: 1px;
+        }
+        .tab-item.active { 
+            opacity: 1; border-bottom: 3px solid var(--pink); color: #fff; 
+            text-shadow: 0 0 10px var(--pink);
+        }
 
         /* CONTENEDORES DE PESTAÑAS */
-        .tab-content { display: none; width: 100%; flex-direction: column; align-items: center; overflow-y: auto; }
-        .tab-content.active { display: flex; }
+        .tab-content { 
+            display: none; width: 100%; flex-direction: column; 
+            align-items: center; overflow-y: auto; flex: 1;
+        }
+        /* Clase para mostrar la pestaña activa */
+        .tab-content.show { display: flex !important; }
 
-        /* PESTAÑA SERVICIOS */
-        .service-card { width: 90%; background: rgba(0, 242, 255, 0.05); border: 1px solid var(--cyan); border-radius: 15px; padding: 12px; margin-bottom: 10px; }
-        .service-card h3 { font-size: 0.8rem; margin: 0 0 5px 0; color: var(--pink); }
-        .service-card p { font-size: 0.65rem; font-family: 'Share Tech Mono'; margin: 0; color: #fff; }
+        /* ESTILOS DE TARJETAS DE SERVICIO */
+        .service-card { 
+            width: 90%; background: rgba(0, 242, 255, 0.05); 
+            border: 1px solid var(--cyan); border-radius: 15px; 
+            padding: 15px; margin-bottom: 12px; transition: 0.3s;
+        }
+        .service-card:active { border-color: var(--pink); transform: scale(0.98); }
+        .service-card h3 { font-size: 0.85rem; margin: 0 0 8px 0; color: var(--pink); text-transform: uppercase; }
+        .service-card p { font-size: 0.7rem; font-family: 'Share Tech Mono'; margin: 0; color: #fff; line-height: 1.4; }
 
-        /* FORMULARIO Y CONTACTO */
-        .t-field, .t-area { width: 90%; background: rgba(0, 242, 255, 0.08); border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 12px; padding: 12px; color: #fff; font-family: 'Share Tech Mono'; margin-bottom: 10px; outline: none; }
-        .btn-main { width: 90%; padding: 15px; border-radius: 40px; border: none; background: linear-gradient(90deg, #ff00ff, #aa00ff); color: white; font-weight: 900; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 255, 0.4); }
+        /* FORMULARIO */
+        .t-field, .t-area { 
+            width: 90%; background: rgba(0, 242, 255, 0.08); 
+            border: 1px solid rgba(0, 242, 255, 0.3); border-radius: 12px; 
+            padding: 14px; color: #fff; font-family: 'Share Tech Mono'; 
+            margin-bottom: 12px; outline: none; font-size: 0.9rem;
+        }
+        .t-area { height: 80px; resize: none; }
+        
+        .btn-main { 
+            width: 90%; padding: 18px; border-radius: 40px; border: none; 
+            background: linear-gradient(90deg, #ff00ff, #aa00ff); 
+            color: white; font-weight: 900; font-family: 'Orbitron';
+            cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
 
-        .grid-links { display: none; width: 90%; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
-        .c-link { display: flex; justify-content: center; align-items: center; padding: 12px; border-radius: 50%; border: 1px solid var(--cyan); background: rgba(0,0,0,0.3); }
-        .c-link img { width: 25px; height: 25px; }
-
-        .profile-img-small { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--cyan); background: url('perfil.png') center/cover; margin-bottom: 10px; }
+        /* BOTONES DE CONTACTO */
+        .grid-links { 
+            display: none; width: 90%; grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; margin-top: 20px; 
+        }
+        .c-link { 
+            display: flex; justify-content: center; align-items: center; 
+            aspect-ratio: 1/1; border-radius: 50%; border: 2px solid var(--cyan); 
+            background: rgba(0,0,0,0.5); transition: 0.3s;
+        }
+        .c-link img { width: 28px; height: 28px; filter: drop-shadow(0 0 5px var(--cyan)); }
+        
+        /* PERFIL */
+        .profile-img-small { 
+            width: 100px; height: 100px; border-radius: 50%; 
+            border: 3px solid var(--cyan); background: url('perfil.png') center/cover; 
+            margin: 20px 0 10px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
     </style>
 </head>
 <body>
 
 <div class="aegis-terminal">
     <div class="tab-bar">
-        <div class="tab-item active" onclick="switchTab('perfil')">PERFIL</div>
-        <div class="tab-item" onclick="switchTab('servicios')">SERVICIOS</div>
-        <div class="tab-item" onclick="switchTab('contacto')">CONTACTO</div>
+        <div class="tab-item active" id="btn-perfil" onclick="switchTab('perfil')">PERFIL</div>
+        <div class="tab-item" id="btn-servicios" onclick="switchTab('servicios')">SERVICIOS</div>
+        <div class="tab-item" id="btn-contacto" onclick="switchTab('contacto')">CONTACTO</div>
     </div>
 
-    <div id="perfil" class="tab-content active">
+    <div id="perfil" class="tab-content show">
         <div class="profile-img-small"></div>
-        <h2 style="font-size: 1rem; color: #fff; margin: 5px 0;">SCARLET FUENMAYOR</h2>
-        <p style="font-size: 0.6rem; color: var(--pink); letter-spacing: 2px;">SR. TECH DEVELOPER</p>
-        <p style="font-size: 0.7rem; text-align: center; padding: 15px; font-family: 'Share Tech Mono';">Especialista en integración de IA, desarrollo de software y soporte técnico avanzado. Operando bajo el Protocolo AEGIS.</p>
+        <h2 style="font-size: 1.1rem; color: #fff; margin: 10px 0 5px;">SCARLET FUENMAYOR</h2>
+        <p style="font-size: 0.65rem; color: var(--pink); letter-spacing: 3px; font-weight: 900;">SR. TECH DEVELOPER</p>
+        <div style="padding: 20px; text-align: center; font-family: 'Share Tech Mono'; font-size: 0.8rem; line-height: 1.6;">
+            [ PROTOCOLO AEGIS ACTIVADO ]<br><br>
+            Especialista en integración de Inteligencia Artificial, despliegue de sistemas operativos y desarrollo web avanzado.
+        </div>
     </div>
 
     <div id="servicios" class="tab-content">
         <div class="service-card">
-            <h3>WINDOWS / LINUX</h3>
-            <p>Optimización de kernels, instalación de sistemas LTSC y debloating avanzado.</p>
+            <h3>Sistemas Operativos</h3>
+            <p>Soporte especializado en Windows y Linux. Optimización de Kernel y eliminación de telemetría.</p>
         </div>
         <div class="service-card">
-            <h3>HARDWARE ARMOR</h3>
-            <p>Soporte técnico, reparación de placas y mantenimiento preventivo pro.</p>
+            <h3>Soporte Técnico</h3>
+            <p>Mantenimiento preventivo y correctivo de hardware. Diagnóstico avanzado de componentes Armor.</p>
         </div>
         <div class="service-card">
-            <h3>DESARROLLO WEB</h3>
-            <p>Creación de interfaces Cyberpunk, despliegue en GitHub y optimización UI/UX.</p>
-        </div>
-        <div class="service-card">
-            <h3>LOGIC FORGE</h3>
-            <p>Desarrollo en JavaScript y Python para automatización y módulos de IA.</p>
+            <h3>Desarrollo Web / JS</h3>
+            <p>Creación de aplicaciones web dinámicas con JavaScript y Python. Interfaces tácticas de alta velocidad.</p>
         </div>
     </div>
 
     <div id="contacto" class="tab-content">
         <input type="text" id="c-name" class="t-field" placeholder="ID CLIENTE / ENTIDAD">
-        <select id="service-select" class="t-field" style="background: rgba(0, 242, 255, 0.1);">
+        <select id="service-select" class="t-field" style="background: rgba(0, 242, 255, 0.15); color: var(--cyan);">
             <option value="Windows/Linux">WINDOWS / LINUX</option>
             <option value="Soporte Técnico">SOPORTE TÉCNICO</option>
             <option value="Desarrollo Web">DESARROLLO WEB</option>
-            <option value="JS/Python">JAVASCRIPT / PYTHON</option>
+            <option value="JavaScript/Python">JAVASCRIPT / PYTHON</option>
         </select>
-        <textarea id="c-req" class="t-area" placeholder="DESCRIBA EL REQUERIMIENTO"></textarea>
+        <textarea id="c-req" class="t-area" placeholder="DESCRIBA EL REQUERIMIENTO TÉCNICO"></textarea>
         <button class="btn-main" onclick="execute()">PROCESAR SOLICITUD</button>
 
         <div class="grid-links" id="links">
@@ -96,25 +141,51 @@
 </div>
 
 <script>
+    // Función mejorada para cambiar pestañas
     function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        // Ocultar todos los contenidos
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => {
+            content.classList.remove('show');
+        });
+
+        // Quitar estado activo de todos los botones
+        const tabs = document.querySelectorAll('.tab-item');
+        tabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Mostrar el contenido seleccionado
+        document.getElementById(tabId).classList.add('show');
+        
+        // Activar el botón correspondiente
+        if(tabId === 'perfil') document.getElementById('btn-perfil').classList.add('active');
+        if(tabId === 'servicios') document.getElementById('btn-servicios').classList.add('active');
+        if(tabId === 'contacto') document.getElementById('btn-contacto').classList.add('active');
     }
 
     function execute() {
         const u = document.getElementById('c-name').value;
         const s = document.getElementById('service-select').value;
         const r = document.getElementById('c-req').value;
-        if(!u || !r) return;
-
-        document.getElementById('links').style.display = 'grid';
-        const msg = encodeURIComponent(`🚨 *AEGIS REQ*\n*CLIENTE:* ${u}\n*SERVICIO:* ${s}\n*DETALLE:* ${r}`);
         
+        if(!u || !r) {
+            alert("Por favor, completa los campos de ID y Requerimiento.");
+            return;
+        }
+
+        // Mostrar botones de contacto
+        document.getElementById('links').style.display = 'grid';
+        
+        // Preparar mensaje para WhatsApp
+        const msg = encodeURIComponent(`🚨 *NUEVA SOLICITUD AEGIS*\n\n*CLIENTE:* ${u}\n*SERVICIO:* ${s}\n*DETALLE:* ${r}`);
+        
+        // Configurar enlaces
         document.getElementById('wa-btn').href = `https://wa.me/584262271349?text=${msg}`;
         document.getElementById('tg-btn').href = `https://t.me/+584122401882`;
-        document.getElementById('em-btn').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=Servicio ${s}&body=${r}`;
+        document.getElementById('em-btn').href = `mailto:Fuenmayorscarlet610@gmail.com?subject=Requerimiento ${s}&body=Cliente: ${u}%0D%0A${r}`;
+        
+        alert("Sincronización completa. Selecciona un canal de envío abajo.");
     }
 </script>
 </body>
