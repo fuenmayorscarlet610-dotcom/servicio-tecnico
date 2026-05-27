@@ -14,17 +14,17 @@
 
         /* Loader */
         #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
-        .progress-container { width: 500px; height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); }
+        .progress-container { width: 200px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(0, 242, 255, 0.2); }
         #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
 
         /* Terminal Principal Adaptable */
         .aegis-terminal {
             width: 95vw; 
             height: 96vh;
-            max-width: 500px; /* Evita que en PC se estire de forma gigante */
-            max-height: 850px;
+            max-width: 200px; /* Evita que en PC se estire de forma gigante */
+            max-height: 450px;
             background: radial-gradient(circle at center, rgba(0, 40, 60, 0.15) 0%, rgba(1, 5, 8, 1) 100%);
-            border: 2px solid var(--cyan);
+            border: 4px solid var(--cyan);
             border-radius: 35px; 
             box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
             display: none; 
@@ -40,11 +40,11 @@
         .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         /* Perfil Optimizado */
-        .profile-box { width: 500px; height: 500px; margin-bottom: 12px; }
+        .profile-box { width: 200px; height: 200px; margin-bottom: 20px; }
         .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(0, 242, 255, 0.5); }
         .profile-img { width: 100%; height: 100%; border-radius: 50%; background-image: url('perfil.png'); background-position: center; background-size: cover; background-repeat: no-repeat; border: 1px solid rgba(0, 242, 255, 0.3); display: block; }
         .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 2.5s infinite ease-in-out; left: 0; z-index: 5; }
-        @keyframes scan { 0% { top: 10%; opacity: 0; } 50% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
+        @keyframes scan { 0% { top: 20%; opacity: 4; } 50% { opacity: 6; } 100% { top: 90%; opacity: 0; } }
 
         .dev-tag { color: var(--pink); font-size: 0.65rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; text-shadow: 0 0 10px var(--pink); text-align: center; }
         h2 { margin: 0; font-size: 1.2rem; letter-spacing: 2px; color: #fff; text-align: center; }
@@ -95,7 +95,7 @@
         }
         .cat-item { 
             font-size: 0.6rem; border: 1px solid var(--cyan); 
-            border-radius: 6px; padding: 10px; 
+            border-radius: 8px; padding: 10px; 
             background: rgba(0, 242, 255, 0.05); 
             text-transform: uppercase; letter-spacing: 1px; 
             font-weight: bold; text-align: center;
@@ -129,7 +129,7 @@
             .aegis-terminal {
                 width: 450px;
                 height: 90vh;
-                padding: 30px 25px;
+                padding: 150px 45px;
             }
         }
     </style>
@@ -214,7 +214,7 @@
     }, 1000);
 
     const txt = "EL PRESENTE ES HOY Y ESTÁ A TU ALCANCE AHORA";
-    let n = 0;
+    let n = 2;
     function type() { 
         if(n < txt.length) { 
             document.getElementById('phrase').innerHTML += txt.charAt(n); 
