@@ -48,7 +48,7 @@
             pointer-events: none;
         }
 
-        /* Loader Optimizado */
+        /* Loader */
         #loader { 
             position: fixed; 
             inset: 0; 
@@ -72,12 +72,12 @@
         .progress-container { width: 200px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(255, 153, 0, 0.2); }
         #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
 
-        /* Terminal Principal Adaptable y Expandible */
+        /* Terminal Principal Adaptable */
         .aegis-terminal {
             width: 95vw; 
             height: 96vh;
             max-width: 440px; 
-            max-height: 85vh;
+            max-height: 90vh;
             background: radial-gradient(circle at center, rgba(60, 30, 0, 0.15) 0%, rgba(8, 5, 3, 1) 100%);
             border: 4px solid var(--cyan);
             border-radius: 35px; 
@@ -85,7 +85,7 @@
             display: none; 
             flex-direction: column; 
             align-items: center; 
-            padding: 30px 25px;
+            padding: 25px;
             position: relative; 
             overflow-y: auto; 
             scrollbar-width: none; 
@@ -93,33 +93,23 @@
         }
         .aegis-terminal::-webkit-scrollbar { display: none; }
 
-        /* Modificaciones para modo escritorio */
-        @media (min-width: 1024px) {
-            .aegis-terminal {
-                max-width: 1200px; /* Expande la terminal a lo ancho en escritorio */
-                width: 90vw;
-                padding: 50px 60px; /* Aumenta el padding para un aspecto más amplio */
-            }
-        }
-
+        /* Contenedores Base */
         .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        .profile-box { width: 140px; height: 140px; margin-bottom: 20px; }
-        .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(255, 153, 0, 0.4); }
-        
-        /* Imagen de perfil corregida para no deformarse */
+        /* Optimización de Foto de Perfil */
+        .profile-box { width: 140px; height: 140px; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; }
+        .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(255, 153, 0, 0.4); display: flex; justify-content: center; align-items: center; }
         .profile-img { 
             width: 100%; 
             height: 100%; 
             border-radius: 50%; 
             background-image: url('perfil.png'); 
             background-position: center; 
-            background-size: cover; /* Asegura que la imagen cubra todo el contenedor sin deformarse */
+            background-size: cover; 
             background-repeat: no-repeat; 
             border: 1px solid rgba(255, 153, 0, 0.3); 
             display: block; 
         }
-
         .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 3s infinite ease-in-out; left: 0; z-index: 5; }
         
         @keyframes scan { 
@@ -167,8 +157,56 @@
         
         .copy { font-size: 0.55rem; opacity: 0.8; letter-spacing: 1px; text-align: center; color: var(--cyan); }
 
-        @media (min-width: 768px) {
-            .aegis-terminal { height: 88vh; padding: 35px 40px; }
+        /* =======================================================
+           CORRECCIÓN COMPLETA PARA RESPONSIVIDAD MODO ESCRITORIO 
+           ======================================================= */
+        @media (min-width: 1024px) {
+            .aegis-terminal {
+                max-width: 900px; /* Expansión ideal para pantallas anchas */
+                width: 85vw;
+                height: auto;
+                max-height: 90vh;
+                padding: 40px 50px;
+                display: none; /* Se mantiene oculto hasta que termine el boot script */
+            }
+            
+            /* Distribución en dos columnas para aprovechar el monitor */
+            .input-group {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+                align-items: start;
+            }
+            
+            .t-area {
+                height: 115px; /* Más espacio en desktop para escribir requerimientos */
+                grid-column: 2;
+                grid-row: 1 / span 2;
+                margin-bottom: 0;
+            }
+            
+            .t-field {
+                grid-column: 1;
+                margin-bottom: 0;
+            }
+            
+            .btn-main {
+                grid-column: 1 / span 2;
+                margin-top: 15px;
+            }
+            
+            .catalog-grid {
+                grid-template-columns: repeat(4, 1fr); /* 4 columnas de servicios en línea */
+            }
+            
+            h2 {
+                font-size: 1.8rem; /* Título principal más imponente */
+            }
+            
+            .profile-box {
+                width: 160px; /* Ajuste proporcional de la foto en PC */
+                height: 160px;
+            }
         }
     </style>
 </head>
@@ -232,13 +270,11 @@
             }
         }, 40);
 
-        // Función para actualizar el reloj de manera limpia
         function updateClock() {
             const time = new Date();
             document.getElementById('clock').innerText = time.toTimeString().split(' ')[0];
         }
         
-        // Ejecución inmediata del reloj para evitar el delay de 00:00:00 inicial
         updateClock();
         setInterval(updateClock, 1000);
     });
@@ -249,7 +285,8 @@
         loader.classList.add('hidden');
         setTimeout(() => {
             loader.style.display = 'none';
-            terminal.style.display = 'flex';
+            // Al activarse el boot, forzamos flex y el CSS responsivo se encargará del resto
+            terminal.style.display = 'flex'; 
         }, 400);
     }
 </script>
