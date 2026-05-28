@@ -72,7 +72,7 @@
         .progress-container { width: 200px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(255, 153, 0, 0.2); }
         #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
 
-        /* Terminal Principal Adaptable */
+        /* Terminal Principal Adaptable y Expandible */
         .aegis-terminal {
             width: 95vw; 
             height: 96vh;
@@ -93,11 +93,33 @@
         }
         .aegis-terminal::-webkit-scrollbar { display: none; }
 
+        /* Modificaciones para modo escritorio */
+        @media (min-width: 1024px) {
+            .aegis-terminal {
+                max-width: 1200px; /* Expande la terminal a lo ancho en escritorio */
+                width: 90vw;
+                padding: 50px 60px; /* Aumenta el padding para un aspecto más amplio */
+            }
+        }
+
         .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         .profile-box { width: 140px; height: 140px; margin-bottom: 20px; }
         .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(255, 153, 0, 0.4); }
-        .profile-img { width: 100%; height: 100%; border-radius: 50%; background-image: url('perfil.png'); background-position: center; background-size: cover; background-repeat: no-repeat; border: 1px solid rgba(255, 153, 0, 0.3); display: block; }
+        
+        /* Imagen de perfil corregida para no deformarse */
+        .profile-img { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            background-image: url('perfil.png'); 
+            background-position: center; 
+            background-size: cover; /* Asegura que la imagen cubra todo el contenedor sin deformarse */
+            background-repeat: no-repeat; 
+            border: 1px solid rgba(255, 153, 0, 0.3); 
+            display: block; 
+        }
+
         .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 3s infinite ease-in-out; left: 0; z-index: 5; }
         
         @keyframes scan { 
