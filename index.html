@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AEGIS CORE PRO | © SCARLET FUENMAYOR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- Corrección del enlace de fuentes para cargar Orbitron y Share Tech Mono correctamente -->
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
-        /* Paleta de colores inspirada en Half-Life / Black Mesa */
         :root { 
-            --cyan: #ff9900; /* Naranja HUD clásico del traje HEV */
-            --pink: #ff4500; /* Rojo/Naranja de alerta técnica */
-            --dark: #080503; /* Fondo oscuro con matiz químico */
+            --cyan: #ff9900; 
+            --pink: #ff4500; 
+            --dark: #080503; 
         }
         
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html { 
             background-color: var(--dark); 
-            /* Fondo de rejilla digital CRT estilo laboratorio de pruebas */
             background-image: 
                 linear-gradient(rgba(255, 153, 0, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 153, 0, 0.03) 1px, transparent 1px);
@@ -36,7 +35,6 @@
             position: relative;
         }
 
-        /* Capa de interferencia sutil de líneas de escaneo */
         body::before {
             content: " ";
             display: block;
@@ -48,8 +46,27 @@
             pointer-events: none;
         }
 
-        /* Loader */
-        #loader { position: fixed; inset: 0; background: #000; z-index: 3000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        /* Loader Optimizado */
+        #loader { 
+            position: fixed; 
+            inset: 0; 
+            background: #000; 
+            z-index: 3000; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
         .progress-container { width: 200px; height: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; margin-top: 20px; overflow: hidden; border: 1px solid rgba(255, 153, 0, 0.2); }
         #progress-bar { width: 0%; height: 100%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); transition: width 0.1s linear; }
 
@@ -57,7 +74,7 @@
         .aegis-terminal {
             width: 95vw; 
             height: 96vh;
-            max-width: 440px; /* Corregido para evitar el colapso del diseño en PC */
+            max-width: 440px; 
             max-height: 85vh;
             background: radial-gradient(circle at center, rgba(60, 30, 0, 0.15) 0%, rgba(8, 5, 3, 1) 100%);
             border: 4px solid var(--cyan);
@@ -76,16 +93,15 @@
 
         .profile-box, .input-group, .catalog, .copy, #phrase { position: relative; z-index: 10; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
-        /* Perfil con Haz Láser */
-        .profile-box { width: 160px; height: 160px; margin-bottom: 20px; }
+        .profile-box { width: 140px; height: 140px; margin-bottom: 20px; }
         .ring { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 50%; padding: 4px; position: relative; box-shadow: 0 0 20px rgba(255, 153, 0, 0.4); }
         .profile-img { width: 100%; height: 100%; border-radius: 50%; background-image: url('perfil.png'); background-position: center; background-size: cover; background-repeat: no-repeat; border: 1px solid rgba(255, 153, 0, 0.3); display: block; }
         .laser { position: absolute; width: 100%; height: 2px; background: var(--pink); box-shadow: 0 0 15px var(--pink); animation: scan 3s infinite ease-in-out; left: 0; z-index: 5; }
         
         @keyframes scan { 
-            0% { top: 15%; opacity: 1; } 
-            50% { top: 85%; opacity: 1; } 
-            100% { top: 15%; opacity: 1; } 
+            0% { top: 15%; } 
+            50% { top: 85%; } 
+            100% { top: 15%; } 
         }
 
         .dev-tag { color: var(--pink); font-size: 0.65rem; font-weight: 900; letter-spacing: 4px; margin-bottom: 6px; text-shadow: 0 0 10px var(--pink); text-align: center; }
@@ -122,7 +138,6 @@
 
         #phrase { min-height: 25px; font-family: 'Share Tech Mono'; font-size: 0.75rem; margin-top: 15px; text-align: center; color: #fff; text-shadow: 0 0 5px var(--cyan); }
         
-        /* Logotipo e Identificación Inferior */
         .footer-logo { width: 50px; height: 50px; border: 2px solid var(--cyan); border-radius: 50%; margin: 15px 0 10px; padding: 6px; background: #000; box-shadow: 0 0 20px rgba(255, 153, 0, 0.5); display: flex; align-items: center; justify-content: center; }
         .footer-logo img { width: 100%; border-radius: 50%; filter: brightness(1.2) contrast(1.1); }
         
@@ -138,7 +153,7 @@
 <div id="loader">
     <div id="load-status" style="letter-spacing: 5px; font-weight: 900; color: var(--cyan); font-size: 0.6rem;">INITIALIZING BLACK MESA SYSTEM...</div>
     <div class="progress-container"><div id="progress-bar"></div></div>
-    <button onclick="boot()" id="ignite-btn" style="margin-top:40px; background:var(--pink); border:none; color:white; padding:12px 40px; font-family:'Orbitron'; border-radius:30px; font-weight:900; cursor:pointer; opacity: 0; display:none; box-shadow: 0 0 20px var(--pink);">IGNITE CORE</button>
+    <button onclick="boot()" id="ignite-btn" style="margin-top:40px; background:var(--pink); border:none; color:white; padding:12px 40px; font-family:'Orbitron'; border-radius:30px; font-weight:900; cursor:pointer; display:none; opacity:0; transition: opacity 0.3s ease; box-shadow: 0 0 20px var(--pink);">IGNITE CORE</button>
 </div>
 
 <div class="aegis-terminal" id="terminal">
@@ -175,7 +190,6 @@
 </div>
 
 <script>
-    // Gestión del Sistema de Carga Funcional
     window.addEventListener('DOMContentLoaded', () => {
         const bar = document.getElementById('progress-bar');
         const status = document.getElementById('load-status');
@@ -187,11 +201,12 @@
                 clearInterval(loaderInterval);
                 status.innerText = "ALL SYSTEMS OPERATIONAL";
                 btn.style.display = "block";
-                setTimeout(() => { btn.style.opacity = "1"; }, 50);
+                setTimeout(() => { btn.style.opacity = "1"; }, 30);
             } else {
-                width += 2;
+                width += 4; 
                 bar.style.width = width + '%';
             }
-        }, 30);
+        }, 40);
 
-        // Reloj HUD de actualización por segundo
+        setInterval(() => {
+            const time = new Date();document.getElementById('clock').innerText = time.toTimeString().split(' ')[0];}, 1000);});function boot() {const loader = document.getElementById('loader');const terminal = document.getElementById('terminal');loader.classList.add('hidden');setTimeout(() => {loader.style.display = 'none';terminal.style.display = 'flex';}, 400);}          
